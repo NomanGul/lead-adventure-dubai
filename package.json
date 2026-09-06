@@ -8,8 +8,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "deploy": "vite build && wrangler deploy --keep-vars --secrets-file .env",
-    "cf:secret": "wrangler secret put VITE_RAPIDAPI_KEY --name lead-adventure-dubai"
+    "deploy": "vite build && wrangler deploy"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.11",
