@@ -1,5 +1,6 @@
-const HOST = "sky-scrapper.p.rapidapi.com";
-const BASE = `https://${HOST}`;
+// Same-origin proxy served by the Worker in worker/index.js. The RapidAPI key
+// lives in the Worker secret RAPIDAPI_KEY and never reaches the browser.
+const BASE = "/api/sky";
 
 const DEFAULTS = {
   locale: "en-US",
@@ -8,26 +9,15 @@ const DEFAULTS = {
   currency: "USD",
 };
 
-function apiKey() {
-  const key = import.meta.env.VITE_RAPIDAPI_KEY;
-  if (!key) {
-    throw new Error("Missing VITE_RAPIDAPI_KEY in .env");
-  }
-  return key;
-}
-
 async function get(path, params = {}) {
-  const url = new URL(path, BASE);
+  const url = new URL(`${BASE}${path}`, window.location.origin);
   for (const [key, value] of Object.entries(params)) {
     if (value === undefined || value === null || value === "") continue;
     url.searchParams.set(key, String(value));
   }
 
   const response = await fetch(url, {
-    headers: {
-      "X-RapidAPI-Key": apiKey(),
-      "X-RapidAPI-Host": HOST,
-    },
+    headers: { accept: "application/json" },
   });
 
   if (response.status === 429) {

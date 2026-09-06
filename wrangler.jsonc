@@ -1,10 +1,15 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "lead-adventure-dubai",
+  "main": "./worker/index.js",
   "compatibility_date": "2026-09-06",
   "keep_vars": true,
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    // Without this, the SPA fallback would answer /api/sky/* with index.html
+    // and the Worker would never run.
+    "run_worker_first": ["/api/sky/*"]
   }
 }
