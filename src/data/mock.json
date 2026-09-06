@@ -43,198 +43,198 @@
       "origin": "LHR",
       "destination": "DXB",
       "airline": "Emirates",
-      "logo": "https://images.unsplash.com/photo-1436491865332-7a61a97f9b24?w=80&h=80&fit=crop",
       "durationMinutes": 420,
       "stops": 0,
       "price": 620,
-      "rating": 4.8
+      "rating": 4.8,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png"
     },
     {
       "id": "fl-002",
       "origin": "CDG",
       "destination": "DXB",
       "airline": "Air France",
-      "logo": "https://images.unsplash.com/photo-1540962351504-4691025c5ef1?w=80&h=80&fit=crop",
       "durationMinutes": 390,
       "stops": 0,
       "price": 540,
-      "rating": 4.3
+      "rating": 4.3,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/AF.png"
     },
     {
       "id": "fl-003",
       "origin": "IST",
       "destination": "DXB",
       "airline": "Turkish Airlines",
-      "logo": "https://images.unsplash.com/photo-1529074963764-98f45c47344b?w=80&h=80&fit=crop",
       "durationMinutes": 270,
       "stops": 1,
       "price": 310,
-      "rating": 4.5
+      "rating": 4.5,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/TK.png"
     },
     {
       "id": "fl-004",
       "origin": "JFK",
       "destination": "DXB",
       "airline": "Qatar Airways",
-      "logo": "https://images.unsplash.com/photo-1464037866556-6812c9d1c267?w=80&h=80&fit=crop",
       "durationMinutes": 780,
       "stops": 1,
       "price": 890,
-      "rating": 4.9
+      "rating": 4.9,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/QR.png"
     },
     {
       "id": "fl-005",
       "origin": "DXB",
       "destination": "LHR",
       "airline": "British Airways",
-      "logo": "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=80&h=80&fit=crop",
       "durationMinutes": 430,
       "stops": 0,
       "price": 580,
-      "rating": 4.2
+      "rating": 4.2,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/BA.png"
     },
     {
       "id": "fl-006",
       "origin": "DXB",
       "destination": "LHR",
       "airline": "flydubai",
-      "logo": "https://images.unsplash.com/photo-1474302770733-6830fd4fdf1e?w=80&h=80&fit=crop",
       "durationMinutes": 510,
       "stops": 1,
       "price": 390,
-      "rating": 3.9
+      "rating": 3.9,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/FZ.png"
     },
     {
       "id": "fl-007",
       "origin": "SIN",
       "destination": "LHR",
       "airline": "Singapore Airlines",
-      "logo": "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=80&h=80&fit=crop",
       "durationMinutes": 800,
       "stops": 0,
       "price": 720,
-      "rating": 4.7
+      "rating": 4.7,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/SQ.png"
     },
     {
       "id": "fl-008",
       "origin": "JFK",
       "destination": "LHR",
       "airline": "Virgin Atlantic",
-      "logo": "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=80&h=80&fit=crop",
       "durationMinutes": 450,
       "stops": 0,
       "price": 480,
-      "rating": 4.4
+      "rating": 4.4,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/VS.png"
     },
     {
       "id": "fl-009",
       "origin": "DXB",
       "destination": "CDG",
       "airline": "Emirates",
-      "logo": "https://images.unsplash.com/photo-1436491865332-7a61a97f9b24?w=80&h=80&fit=crop",
       "durationMinutes": 400,
       "stops": 0,
       "price": 510,
-      "rating": 4.6
+      "rating": 4.6,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png"
     },
     {
       "id": "fl-010",
       "origin": "IST",
       "destination": "CDG",
       "airline": "Pegasus",
-      "logo": "https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?w=80&h=80&fit=crop",
       "durationMinutes": 320,
       "stops": 1,
       "price": 210,
-      "rating": 3.7
+      "rating": 3.7,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/PC.png"
     },
     {
       "id": "fl-011",
       "origin": "LHR",
       "destination": "IST",
       "airline": "Turkish Airlines",
-      "logo": "https://images.unsplash.com/photo-1529074963764-98f45c47344b?w=80&h=80&fit=crop",
       "durationMinutes": 240,
       "stops": 0,
       "price": 260,
-      "rating": 4.5
+      "rating": 4.5,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/TK.png"
     },
     {
       "id": "fl-012",
       "origin": "DXB",
       "destination": "IST",
       "airline": "Emirates",
-      "logo": "https://images.unsplash.com/photo-1436491865332-7a61a97f9b24?w=80&h=80&fit=crop",
       "durationMinutes": 280,
       "stops": 0,
       "price": 340,
-      "rating": 4.8
+      "rating": 4.8,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png"
     },
     {
       "id": "fl-013",
       "origin": "DXB",
       "destination": "SIN",
       "airline": "Emirates",
-      "logo": "https://images.unsplash.com/photo-1436491865332-7a61a97f9b24?w=80&h=80&fit=crop",
       "durationMinutes": 440,
       "stops": 0,
       "price": 450,
-      "rating": 4.8
+      "rating": 4.8,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png"
     },
     {
       "id": "fl-014",
       "origin": "LHR",
       "destination": "SIN",
       "airline": "Qatar Airways",
-      "logo": "https://images.unsplash.com/photo-1464037866556-6812c9d1c267?w=80&h=80&fit=crop",
       "durationMinutes": 760,
       "stops": 1,
       "price": 680,
-      "rating": 4.9
+      "rating": 4.9,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/QR.png"
     },
     {
       "id": "fl-015",
       "origin": "LHR",
       "destination": "JFK",
       "airline": "British Airways",
-      "logo": "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=80&h=80&fit=crop",
       "durationMinutes": 470,
       "stops": 0,
       "price": 520,
-      "rating": 4.1
+      "rating": 4.1,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/BA.png"
     },
     {
       "id": "fl-016",
       "origin": "DXB",
       "destination": "JFK",
       "airline": "Emirates",
-      "logo": "https://images.unsplash.com/photo-1436491865332-7a61a97f9b24?w=80&h=80&fit=crop",
       "durationMinutes": 840,
       "stops": 0,
       "price": 950,
-      "rating": 4.7
+      "rating": 4.7,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png"
     },
     {
       "id": "fl-017",
       "origin": "CDG",
       "destination": "JFK",
       "airline": "Delta",
-      "logo": "https://images.unsplash.com/photo-1540962351504-4691025c5ef1?w=80&h=80&fit=crop",
       "durationMinutes": 520,
       "stops": 1,
       "price": 430,
-      "rating": 4.0
+      "rating": 4.0,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/DL.png"
     },
     {
       "id": "fl-018",
       "origin": "SIN",
       "destination": "DXB",
       "airline": "Singapore Airlines",
-      "logo": "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=80&h=80&fit=crop",
       "durationMinutes": 430,
       "stops": 0,
       "price": 470,
-      "rating": 4.6
+      "rating": 4.6,
+      "logo": "https://www.gstatic.com/flights/airline_logos/70px/SQ.png"
     }
   ],
   "hotels": [
@@ -242,161 +242,226 @@
       "id": "ht-001",
       "city": "Dubai",
       "name": "Burj Vista Grand",
-      "image": "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=640&h=400&fit=crop",
       "stars": 5,
-      "amenities": ["Free Wi-Fi", "Pool", "Spa", "Gym"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Pool",
+        "Spa",
+        "Gym"
+      ],
       "pricePerNight": 320,
-      "rating": 4.9
+      "rating": 4.9,
+      "image": "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-002",
       "city": "Dubai",
       "name": "Marina Palm Suites",
-      "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=640&h=400&fit=crop",
       "stars": 4,
-      "amenities": ["Free Wi-Fi", "Pool", "Parking"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Pool",
+        "Parking"
+      ],
       "pricePerNight": 180,
-      "rating": 4.4
+      "rating": 4.4,
+      "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-003",
       "city": "Dubai",
       "name": "Deira City Stay",
-      "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=640&h=400&fit=crop",
       "stars": 3,
-      "amenities": ["Free Wi-Fi", "Breakfast"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Breakfast"
+      ],
       "pricePerNight": 95,
-      "rating": 3.8
+      "rating": 3.8,
+      "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-004",
       "city": "London",
       "name": "Thames Riverside Hotel",
-      "image": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=640&h=400&fit=crop",
       "stars": 5,
-      "amenities": ["Free Wi-Fi", "Spa", "Restaurant", "Gym"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Spa",
+        "Restaurant",
+        "Gym"
+      ],
       "pricePerNight": 290,
-      "rating": 4.7
+      "rating": 4.7,
+      "image": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-005",
       "city": "London",
       "name": "Covent Garden Lodge",
-      "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=640&h=400&fit=crop",
       "stars": 4,
-      "amenities": ["Free Wi-Fi", "Breakfast", "Bar"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Breakfast",
+        "Bar"
+      ],
       "pricePerNight": 160,
-      "rating": 4.3
+      "rating": 4.3,
+      "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-006",
       "city": "London",
       "name": "Camden Budget Inn",
-      "image": "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=640&h=400&fit=crop",
       "stars": 3,
-      "amenities": ["Free Wi-Fi"],
+      "amenities": [
+        "Free Wi-Fi"
+      ],
       "pricePerNight": 85,
-      "rating": 3.6
+      "rating": 3.6,
+      "image": "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-007",
       "city": "Paris",
       "name": "Le Marais Boutique",
-      "image": "https://images.unsplash.com/photo-1455587734955-081b22074882?w=640&h=400&fit=crop",
       "stars": 4,
-      "amenities": ["Free Wi-Fi", "Breakfast", "Bar"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Breakfast",
+        "Bar"
+      ],
       "pricePerNight": 210,
-      "rating": 4.5
+      "rating": 4.5,
+      "image": "https://images.unsplash.com/photo-1455587734955-081b22074882?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-008",
       "city": "Paris",
       "name": "Seine View Palace",
-      "image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=640&h=400&fit=crop",
       "stars": 5,
-      "amenities": ["Free Wi-Fi", "Pool", "Spa", "Restaurant"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Pool",
+        "Spa",
+        "Restaurant"
+      ],
       "pricePerNight": 380,
-      "rating": 4.8
+      "rating": 4.8,
+      "image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-009",
       "city": "Paris",
       "name": "Montmartre Corner Hotel",
-      "image": "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=640&h=400&fit=crop",
       "stars": 3,
-      "amenities": ["Free Wi-Fi", "Parking"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Parking"
+      ],
       "pricePerNight": 110,
-      "rating": 3.9
+      "rating": 3.9,
+      "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-010",
       "city": "Istanbul",
       "name": "Bosphorus Heritage Hotel",
-      "image": "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=640&h=400&fit=crop",
       "stars": 5,
-      "amenities": ["Free Wi-Fi", "Spa", "Restaurant", "Pool"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Spa",
+        "Restaurant",
+        "Pool"
+      ],
       "pricePerNight": 240,
-      "rating": 4.6
+      "rating": 4.6,
+      "image": "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-011",
       "city": "Istanbul",
       "name": "Sultanahmet Courtyard",
-      "image": "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=640&h=400&fit=crop",
       "stars": 4,
-      "amenities": ["Free Wi-Fi", "Breakfast", "Terrace"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Breakfast",
+        "Terrace"
+      ],
       "pricePerNight": 130,
-      "rating": 4.2
+      "rating": 4.2,
+      "image": "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-012",
       "city": "Singapore",
       "name": "Marina Bay Lights Hotel",
-      "image": "https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=640&h=400&fit=crop",
       "stars": 5,
-      "amenities": ["Free Wi-Fi", "Pool", "Gym", "Spa"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Pool",
+        "Gym",
+        "Spa"
+      ],
       "pricePerNight": 310,
-      "rating": 4.8
+      "rating": 4.8,
+      "image": "https://images.unsplash.com/photo-1568084680786-a84f91d1153c?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-013",
       "city": "Singapore",
       "name": "Orchard Garden Inn",
-      "image": "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=640&h=400&fit=crop",
       "stars": 4,
-      "amenities": ["Free Wi-Fi", "Pool", "Breakfast"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Pool",
+        "Breakfast"
+      ],
       "pricePerNight": 175,
-      "rating": 4.3
+      "rating": 4.3,
+      "image": "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-014",
       "city": "New York",
       "name": "Manhattan Skyline Hotel",
-      "image": "https://images.unsplash.com/photo-1501117716987-c8e1ecb2101f?w=640&h=400&fit=crop",
       "stars": 5,
-      "amenities": ["Free Wi-Fi", "Gym", "Restaurant", "Bar"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Gym",
+        "Restaurant",
+        "Bar"
+      ],
       "pricePerNight": 350,
-      "rating": 4.7
+      "rating": 4.7,
+      "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-015",
       "city": "New York",
       "name": "Brooklyn Bridge Suites",
-      "image": "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=640&h=400&fit=crop",
       "stars": 4,
-      "amenities": ["Free Wi-Fi", "Breakfast", "Parking"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Breakfast",
+        "Parking"
+      ],
       "pricePerNight": 195,
-      "rating": 4.1
+      "rating": 4.1,
+      "image": "https://images.unsplash.com/photo-1596436889106-be35e843f974?w=800&h=500&fit=crop"
     },
     {
       "id": "ht-016",
       "city": "New York",
       "name": "Queens Transit Stay",
-      "image": "https://images.unsplash.com/photo-1596436889106-be35e843f974?w=640&h=400&fit=crop",
       "stars": 3,
-      "amenities": ["Free Wi-Fi", "Parking"],
+      "amenities": [
+        "Free Wi-Fi",
+        "Parking"
+      ],
       "pricePerNight": 105,
-      "rating": 3.7
+      "rating": 3.7,
+      "image": "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800&h=500&fit=crop"
     }
   ]
 }
