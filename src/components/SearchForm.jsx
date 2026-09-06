@@ -2,8 +2,14 @@ import { useTrip } from "../context/TripContext";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 export function SearchForm() {
-  const { destinations, searchForm, updateForm, formErrors, search } =
-    useTrip();
+  const {
+    searchForm,
+    updateForm,
+    selectPlace,
+    formErrors,
+    search,
+    isSearching,
+  } = useTrip();
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -29,7 +35,7 @@ export function SearchForm() {
               label="Origin"
               value={searchForm.origin}
               onChange={(value) => updateForm("origin", value)}
-              options={destinations}
+              onSelect={(place) => selectPlace("origin", place)}
               error={formErrors.origin}
               placeholder="City or airport"
             />
@@ -38,7 +44,7 @@ export function SearchForm() {
               label="Destination"
               value={searchForm.destination}
               onChange={(value) => updateForm("destination", value)}
-              options={destinations}
+              onSelect={(place) => selectPlace("destination", place)}
               error={formErrors.destination}
               placeholder="City or airport"
             />
@@ -135,10 +141,11 @@ export function SearchForm() {
         </fieldset>
 
         <button
-          className="block w-full rounded-lg border border-brand-600 bg-brand-600 px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-brand-600"
+          className="block w-full rounded-lg border border-brand-600 bg-brand-600 px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-brand-600 disabled:cursor-not-allowed disabled:opacity-60"
           type="submit"
+          disabled={isSearching}
         >
-          Search
+          {isSearching ? "Searching…" : "Search"}
         </button>
       </form>
     </section>

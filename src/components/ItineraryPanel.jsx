@@ -3,13 +3,15 @@ import { formatDuration, formatMoney } from "../utils/format";
 import { getNights, getTripTotal } from "../utils/tripCost";
 
 export function ItineraryPanel() {
-  const { itinerary, removeFromTrip } = useTrip();
+  const { itinerary, removeFromTrip, searchForm } = useTrip();
   const nights = getNights(itinerary.departure, itinerary.returnDate);
   const guests = Math.max(1, itinerary.adults + itinerary.children);
   const totals = getTripTotal(itinerary, nights, guests);
   const isEmpty =
     itinerary.flights.length === 0 && itinerary.hotels.length === 0;
   const itemCount = itinerary.flights.length + itinerary.hotels.length;
+  const destCity =
+    searchForm.destinationPlace?.presentation?.title || searchForm.destination;
 
   return (
     <aside
@@ -24,69 +26,103 @@ export function ItineraryPanel() {
           <p className="text-sm text-muted">No items yet.</p>
         ) : (
           <ul className="space-y-4">
-            {itinerary.flights.map((flight) => (
-              <li key={flight.id} className="flex items-center gap-4">
-                <img
-                  src={flight.logo}
-                  alt=""
-                  width={64}
-                  height={64}
-                  className="size-16 shrink-0 rounded-sm bg-surface object-contain p-2"
-                />
+            {itinerary.flights.map((flight) => {
+              const leg = flight.legs?.[0] ?? {};
+              const carrier = leg.carriers?.marketing?.[0] ?? {};
+              const priceLabel =
+                flight.price?.formatted ||
+                formatMoney(Math.round(Number(flight.price?.raw) || 0));
 
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-sm text-ink">{flight.airline}</h3>
-                  <p className="mt-0.5 text-[10px] text-muted">
-                    {flight.origin} to {flight.destination}
-                  </p>
-                  <p className="text-[10px] text-muted">
-                    {formatDuration(flight.durationMinutes)}
-                  </p>
-                  <p className="text-[10px] text-muted">
-                    {formatMoney(flight.price)}
-                    {totals.travelers > 1
-                      ? ` × ${totals.travelers}`
-                      : " / person"}
-                  </p>
-                </div>
+              return (
+                <li key={flight.id} className="flex items-center gap-4">
+                  {carrier.logoUrl ? (
+                    <img
+                      src={carrier.logoUrl}
+                      alt=""
+                      width={64}
+                      height={64}
+                      className="size-16 shrink-0 rounded-sm bg-surface object-contain p-2"
+                    />
+                  ) : (
+                    <div
+                      className="size-16 shrink-0 rounded-sm bg-surface"
+                      aria-hidden
+                    />
+                  )}
 
-                <button
-                  type="button"
-                  className="shrink-0 text-sm text-muted underline transition hover:text-danger"
-                  onClick={() => removeFromTrip("flights", flight.id)}
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm text-ink">
+                      {carrier.name || "Unknown airline"}
+                    </h3>
+                    <p className="mt-0.5 text-[10px] text-muted">
+                      {leg.origin?.displayCode} to{" "}
+                      {leg.destination?.displayCode}
+                    </p>
+                    <p className="text-[10px] text-muted">
+                      {formatDuration(Number(leg.durationInMinutes) || 0)}
+                    </p>
+                    <p className="text-[10px] text-muted">
+                      {priceLabel}
+                      {totals.travelers > 1
+                        ? ` × ${totals.travelers}`
+                        : " / person"}
+                    </p>
+                  </div>
 
-            {itinerary.hotels.map((hotel) => (
-              <li key={hotel.id} className="flex items-center gap-4">
-                <img
-                  src={hotel.image}
-                  alt=""
-                  width={64}
-                  height={64}
-                  className="size-16 shrink-0 rounded-sm object-cover"
-                />
+                  <button
+                    type="button"
+                    className="shrink-0 text-sm text-muted underline transition hover:text-danger"
+                    onClick={() => removeFromTrip("flights", flight.id)}
+                  >
+                    Remove
+                  </button>
+                </li>
+              );
+            })}
 
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-sm text-ink">{hotel.name}</h3>
-                  <p className="mt-0.5 text-[10px] text-muted">{hotel.city}</p>
-                  <p className="text-[10px] text-muted">
-                    {formatMoney(hotel.pricePerNight)} / night
-                  </p>
-                </div>
+            {itinerary.hotels.map((hotel) => {
+              const image = hotel.heroImage || hotel.images?.[0];
+              const priceLabel =
+                hotel.price ||
+                formatMoney(Math.round(Number(hotel.rawPrice) || 0));
 
-                <button
-                  type="button"
-                  className="shrink-0 text-sm text-muted underline transition hover:text-danger"
-                  onClick={() => removeFromTrip("hotels", hotel.id)}
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
+              return (
+                <li key={hotel.hotelId} className="flex items-center gap-4">
+                  {image ? (
+                    <img
+                      src={image}
+                      alt=""
+                      width={64}
+                      height={64}
+                      className="size-16 shrink-0 rounded-sm object-cover"
+                    />
+                  ) : (
+                    <div
+                      className="size-16 shrink-0 rounded-sm bg-surface"
+                      aria-hidden
+                    />
+                  )}
+
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm text-ink">{hotel.name}</h3>
+                    <p className="mt-0.5 text-[10px] text-muted">
+                      {destCity || hotel.distance}
+                    </p>
+                    <p className="text-[10px] text-muted">
+                      {priceLabel} / night
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="shrink-0 text-sm text-muted underline transition hover:text-danger"
+                    onClick={() => removeFromTrip("hotels", hotel.hotelId)}
+                  >
+                    Remove
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         )}
 
@@ -96,13 +132,13 @@ export function ItineraryPanel() {
             <p>
               Flights
               {totals.travelers > 1 ? ` × ${totals.travelers}` : ""}:{" "}
-              {formatMoney(totals.flightsTotal)}
+              {formatMoney(Math.round(totals.flightsTotal))}
             </p>
             <p>
               {totals.nights > 0
                 ? `Hotels × ${totals.nights} night${totals.nights === 1 ? "" : "s"}`
                 : "Hotels (set travel dates)"}
-              : {formatMoney(totals.hotelsTotal)}
+              : {formatMoney(Math.round(totals.hotelsTotal))}
             </p>
           </div>
 
@@ -110,7 +146,7 @@ export function ItineraryPanel() {
             className="rounded-sm border border-line bg-canvas px-5 py-3 text-sm font-semibold text-ink"
             aria-live="polite"
           >
-            Total: {formatMoney(totals.grandTotal)}
+            Total: {formatMoney(Math.round(totals.grandTotal))}
           </div>
         </div>
       </div>

@@ -12,11 +12,11 @@ export function getNights(departure, returnDate) {
 export function getTripTotal(itinerary, nights, guests = 1) {
   const travelers = Math.max(1, guests);
   const flightsTotal = itinerary.flights.reduce(
-    (sum, f) => sum + f.price * travelers,
+    (sum, f) => sum + (Number(f.price?.raw) || 0) * travelers,
     0,
   );
   const hotelsTotal = itinerary.hotels.reduce(
-    (sum, h) => sum + h.pricePerNight * nights,
+    (sum, h) => sum + (Number(h.rawPrice) || 0) * nights,
     0,
   );
 

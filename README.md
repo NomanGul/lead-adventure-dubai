@@ -6,6 +6,9 @@ Flight and hotel booking dashboard. Search a route, filter results, and build a 
 
 ## Run locally
 
+1. Copy `.env.example` to `.env` and set your RapidAPI key for [Sky Scrapper](https://rapidapi.com/apiheya/api/sky-scrapper).
+2. Install and start:
+
 ```bash
 pnpm install
 pnpm dev
@@ -15,7 +18,14 @@ App opens at `http://localhost:5173`.
 
 ## Data source
 
-Local mock dataset in `src/data/mock.json` (destinations, flights, hotels).
+Live [Sky Scrapper](https://rapidapi.com/apiheya/api/sky-scrapper) data via RapidAPI:
+
+- `GET /api/v1/flights/searchAirport` — origin/destination autocomplete
+- `GET /api/v2/flights/searchFlights` (+ `searchIncomplete` when needed) — flights
+- `GET /api/v1/hotels/searchDestinationOrHotel` — hotel destination entity
+- `GET /api/v1/hotels/searchHotels` — hotels
+
+Set `VITE_RAPIDAPI_KEY` in `.env`.
 
 ## State
 

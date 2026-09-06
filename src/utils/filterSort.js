@@ -1,9 +1,17 @@
 function getPrice(item, type) {
-  return type === "flights" ? item.price : item.pricePerNight;
+  return type === "flights"
+    ? Number(item.price?.raw) || 0
+    : Number(item.rawPrice) || 0;
 }
 
 function getRating(item, type) {
-  return type === "hotels" ? item.stars : item.rating;
+  if (type === "hotels") return Number(item.stars) || 0;
+  const score = Number(item.score);
+  return Number.isFinite(score) ? score * 5 : 0;
+}
+
+function getStops(item) {
+  return Number(item.legs?.[0]?.stopCount) || 0;
 }
 
 export function applyFiltersAndSort(items, { filters, sort, type }) {
@@ -16,8 +24,9 @@ export function applyFiltersAndSort(items, { filters, sort, type }) {
       if (rating < filters.minRating) return false;
 
       if (type === "flights" && filters.stops !== "any") {
-        if (filters.stops === "direct" && item.stops !== 0) return false;
-        if (filters.stops === "layover" && item.stops === 0) return false;
+        const stops = getStops(item);
+        if (filters.stops === "direct" && stops !== 0) return false;
+        if (filters.stops === "layover" && stops === 0) return false;
       }
 
       return true;

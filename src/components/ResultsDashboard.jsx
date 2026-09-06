@@ -4,6 +4,7 @@ import { applyFiltersAndSort } from "../utils/filterSort";
 import { FiltersSidebar } from "./FiltersSidebar";
 import { FlightCard } from "./FlightCard";
 import { HotelCard } from "./HotelCard";
+import { ResultsSkeleton } from "./ResultsSkeleton";
 import { SortControls } from "./SortControls";
 
 function tabClass(active) {
@@ -13,8 +14,17 @@ function tabClass(active) {
 }
 
 export function ResultsDashboard() {
-  const { hasSearched, activeTab, setActiveTab, results, filters, sort } =
-    useTrip();
+  const {
+    hasSearched,
+    loadingFlights,
+    loadingHotels,
+    searchError,
+    activeTab,
+    setActiveTab,
+    results,
+    filters,
+    sort,
+  } = useTrip();
   const resultsRef = useRef(null);
   const prevResultsRef = useRef(results);
 
@@ -33,6 +43,28 @@ export function ResultsDashboard() {
         className="mt-8 rounded-lg border border-line bg-surface p-6 text-center"
       >
         <p className="text-muted">No search yet.</p>
+      </section>
+    );
+  }
+
+  const tabLoading = activeTab === "flights" ? loadingFlights : loadingHotels;
+  const bothFailed =
+    Boolean(searchError) &&
+    !loadingFlights &&
+    !loadingHotels &&
+    results.flights.length === 0 &&
+    results.hotels.length === 0;
+
+  if (bothFailed) {
+    return (
+      <section
+        id="results"
+        ref={resultsRef}
+        className="mt-8 rounded-lg border border-line bg-surface p-6 text-center"
+      >
+        <p className="text-danger" role="alert">
+          {searchError}
+        </p>
       </section>
     );
   }
@@ -62,7 +94,8 @@ export function ResultsDashboard() {
             className={tabClass(activeTab === "flights")}
             onClick={() => setActiveTab("flights")}
           >
-            Flights ({flights.length})
+            Flights
+            {loadingFlights ? "…" : ` (${flights.length})`}
           </button>
           <button
             type="button"
@@ -71,7 +104,8 @@ export function ResultsDashboard() {
             className={tabClass(activeTab === "hotels")}
             onClick={() => setActiveTab("hotels")}
           >
-            Hotels ({hotels.length})
+            Hotels
+            {loadingHotels ? "…" : ` (${hotels.length})`}
           </button>
         </div>
       </div>
@@ -84,8 +118,12 @@ export function ResultsDashboard() {
             <SortControls />
           </div>
 
-          {list.length === 0 ? (
-            <p className="text-muted">Nothing matches.</p>
+          {tabLoading ? (
+            <ResultsSkeleton type={activeTab} />
+          ) : list.length === 0 ? (
+            <p className={searchError ? "text-danger" : "text-muted"}>
+              {searchError || "Nothing matches."}
+            </p>
           ) : (
             <div role="tabpanel" className="grid gap-4">
               {activeTab === "flights"
@@ -93,7 +131,7 @@ export function ResultsDashboard() {
                     <FlightCard key={flight.id} flight={flight} />
                   ))
                 : hotels.map((hotel) => (
-                    <HotelCard key={hotel.id} hotel={hotel} />
+                    <HotelCard key={hotel.hotelId} hotel={hotel} />
                   ))}
             </div>
           )}
