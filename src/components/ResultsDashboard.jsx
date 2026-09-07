@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Funnel, MagnifyingGlass, X } from "@phosphor-icons/react";
 import { ActivityCard } from "./ActivityCard";
 import { FiltersPanel } from "./FiltersPanel";
@@ -63,17 +63,14 @@ export function ResultsDashboard() {
   };
   const loading = loadingByTab[activeTab];
 
-  const bounds = useMemo(() => priceBounds(raw), [raw]);
-  const facets = useMemo(() => facetCounts(raw, filters, activeTab), [raw, filters, activeTab]);
-  const visible = useMemo(
-    () => sortItems(applyFilters(raw, filters, activeTab), sort),
-    [raw, filters, activeTab, sort],
-  );
+  const bounds = priceBounds(raw);
+  const facets = facetCounts(raw, filters, activeTab);
+  const visible = sortItems(applyFilters(raw, filters, activeTab), sort);
 
   const activeCount = countActiveFilters(filters, activeTab);
   const multiLeg = plainLegs.length > 1;
 
-  const hopTabs = useMemo(() => {
+  const hopTabs = (() => {
     if (!multiLeg) return [];
 
     return plainLegs
@@ -88,7 +85,7 @@ export function ResultsDashboard() {
         count: visible.filter((item) => item.legIndex === index).length,
       }))
       .filter((tab) => tab.total > 0);
-  }, [multiLeg, plainLegs, activeTab, stays, raw, visible]);
+  })();
 
   const currentHop = hopTabs.some((tab) => tab.index === hop) ? hop : (hopTabs[0]?.index ?? 0);
   const shown = multiLeg

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   searchAirports,
   searchFlights,
@@ -87,48 +87,35 @@ export function TripProvider({ children }) {
   const [storedItinerary, setItinerary] = useLocalStorage("myCustomTrip", initialItinerary);
   const noticeTimer = useRef(null);
 
-  const itinerary = useMemo(
-    () => ({ ...initialItinerary, ...storedItinerary }),
-    [storedItinerary],
-  );
+  const itinerary = { ...initialItinerary, ...storedItinerary };
 
   const isSearching = loadingFlights || loadingHotels || loadingActivities;
 
-  const legs = useMemo(
-    () =>
-      stops.slice(0, -1).map((from, index) => {
-        const to = stops[index + 1];
-        return {
-          key: hops[index]?.key ?? `hop-${index}`,
-          origin: from.label,
-          originPlace: from.place,
-          destination: to.label,
-          destinationPlace: to.place,
-          departure: hops[index]?.departure ?? "",
-        };
-      }),
-    [stops, hops],
-  );
+  const legs = stops.slice(0, -1).map((from, index) => {
+    const to = stops[index + 1];
+    return {
+      key: hops[index]?.key ?? `hop-${index}`,
+      origin: from.label,
+      originPlace: from.place,
+      destination: to.label,
+      destinationPlace: to.place,
+      departure: hops[index]?.departure ?? "",
+    };
+  });
 
-  const plainLegs = useMemo(
-    () =>
-      legs.map((leg) => ({
-        origin: cityName(leg.originPlace) || leg.origin,
-        destination: cityName(leg.destinationPlace) || leg.destination,
-        departure: leg.departure,
-      })),
-    [legs],
-  );
+  const plainLegs = legs.map((leg) => ({
+    origin: cityName(leg.originPlace) || leg.origin,
+    destination: cityName(leg.destinationPlace) || leg.destination,
+    departure: leg.departure,
+  }));
 
   const isRoundTrip = tripType === "return" && legs.length === 1;
 
-  const stays = useMemo(() => buildStays(plainLegs, endDate), [plainLegs, endDate]);
+  const stays = buildStays(plainLegs, endDate);
 
-  const savedStays = useMemo(() => {
-    const plan = itinerary.plan;
-    if (plan.legs?.length) return buildStays(plan.legs, plan.returnDate);
-    return stays;
-  }, [itinerary.plan, stays]);
+  const savedStays = itinerary.plan.legs?.length
+    ? buildStays(itinerary.plan.legs, itinerary.plan.returnDate)
+    : stays;
 
   const flash = (message) => {
     setNotice(message);

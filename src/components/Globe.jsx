@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   geoDistance,
   geoGraticule10,
@@ -142,22 +142,18 @@ export function Globe({ route = [], onPickCity, hint }) {
     return () => cancelAnimationFrame(frame);
   }, [route.length, onScreen]);
 
-  const projection = useMemo(
-    () =>
-      geoOrthographic()
-        .translate([CX, CY])
-        .scale(R * zoom)
-        .rotate([-center.lon, -center.lat]),
-    [center.lat, center.lon, zoom],
-  );
+  const projection = geoOrthographic()
+    .translate([CX, CY])
+    .scale(R * zoom)
+    .rotate([-center.lon, -center.lat]);
 
-  const path = useMemo(() => geoPath(projection), [projection]);
+  const path = geoPath(projection);
 
-  const landPath = useMemo(() => path(LAND), [path]);
-  const graticulePath = useMemo(() => path(GRATICULE), [path]);
-  const spherePath = useMemo(() => path(SPHERE), [path]);
+  const landPath = path(LAND);
+  const graticulePath = path(GRATICULE);
+  const spherePath = path(SPHERE);
 
-  const visibleCities = useMemo(() => {
+  const visibleCities = (() => {
     const chosen = new Map(route.map((stop, index) => [stop.city, index]));
 
     return DESTINATIONS.flatMap((dest) => {
@@ -169,38 +165,30 @@ export function Globe({ route = [], onPickCity, hint }) {
 
       return [{ dest, x, y, angle, order: chosen.get(dest.city) }];
     });
-  }, [projection, center.lat, center.lon, route]);
+  })();
 
-  const cityDots = useMemo(
-    () =>
-      visibleCities
-        .filter((c) => c.order === undefined && c.dest.city !== hovered?.dest.city)
-        .map((c) => `M${c.x.toFixed(1)} ${c.y.toFixed(1)}l0 0`)
-        .join(""),
-    [visibleCities, hovered],
-  );
+  const cityDots = visibleCities
+    .filter((c) => c.order === undefined && c.dest.city !== hovered?.dest.city)
+    .map((c) => `M${c.x.toFixed(1)} ${c.y.toFixed(1)}l0 0`)
+    .join("");
 
-  const arcs = useMemo(
-    () =>
-      route.slice(0, -1).map((from, i) => {
-        const to = route[i + 1];
-        return {
-          key: `${from.city}-${to.city}-${i}`,
-          d: path({
-            type: "LineString",
-            coordinates: [
-              [from.lon, from.lat],
-              [to.lon, to.lat],
-            ],
-          }),
-          from: [from.lon, from.lat],
-          to: [to.lon, to.lat],
-        };
+  const arcs = route.slice(0, -1).map((from, i) => {
+    const to = route[i + 1];
+    return {
+      key: `${from.city}-${to.city}-${i}`,
+      d: path({
+        type: "LineString",
+        coordinates: [
+          [from.lon, from.lat],
+          [to.lon, to.lat],
+        ],
       }),
-    [route, path],
-  );
+      from: [from.lon, from.lat],
+      to: [to.lon, to.lat],
+    };
+  });
 
-  const planeDot = useMemo(() => {
+  const planeDot = (() => {
     if (arcs.length === 0) return null;
 
     const arc = arcs[arcs.length - 1];
@@ -209,7 +197,7 @@ export function Globe({ route = [], onPickCity, hint }) {
 
     const [x, y] = projection(point);
     return { x, y };
-  }, [arcs, projection, center.lat, center.lon, progress]);
+  })();
 
   const toDisc = (event) => {
     const rect = svgRef.current.getBoundingClientRect();
@@ -312,7 +300,7 @@ export function Globe({ route = [], onPickCity, hint }) {
 
   const chosen = visibleCities.filter((c) => c.order !== undefined);
 
-  const labels = useMemo(() => {
+  const labels = (() => {
     const shown = [...chosen];
     const taken = new Set(shown.map((c) => c.dest.city));
 
@@ -347,7 +335,7 @@ export function Globe({ route = [], onPickCity, hint }) {
     }
 
     return shown;
-  }, [chosen, hovered, visibleCities, width, zoom]);
+  })();
 
   const zoomButton =
     "grid size-8 place-items-center rounded-lg border border-white/15 bg-ink/60 text-white/80 backdrop-blur transition hover:border-white/35 hover:text-white disabled:opacity-30";
