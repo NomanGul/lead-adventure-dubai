@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/forms";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
   --color-brand-50: #eef8f7;
   --color-brand-100: #d5efec;
@@ -19,8 +19,27 @@
   --color-muted: #5b6b76;
   --color-surface: #ffffff;
   --color-canvas: #f3f6f8;
-  --color-line: #d7e0e6;
+  --color-line: #dde5ea;
   --color-danger: #b42318;
+}
+
+@keyframes toast {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes sheet {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
 }
 
 @layer base {
@@ -28,6 +47,7 @@
     font-family: var(--font-sans);
     color: var(--color-ink);
     background-color: var(--color-canvas);
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
@@ -52,12 +72,27 @@
   button,
   summary,
   label,
-  select,
   [role="option"] {
     cursor: pointer;
   }
 
   button:disabled {
     cursor: not-allowed;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }

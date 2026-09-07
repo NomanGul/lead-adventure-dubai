@@ -1,6 +1,6 @@
 # Lead Adventure Travel
 
-Flight and hotel booking dashboard. Search a route, filter results, and build a custom itinerary.
+Multi-destination flight and hotel planner. Plot a route on the globe, search live results, and build a costed itinerary.
 
 **Live demo:** [lead-adventure-dubai.nomangul2001.workers.dev](https://lead-adventure-dubai.nomangul2001.workers.dev/)
 
@@ -16,6 +16,8 @@ pnpm dev
 
 App opens at `http://localhost:5173`.
 
+To run the Worker + built assets instead: `pnpm build && npx wrangler dev`.
+
 ## Data source
 
 Live [Sky Scrapper](https://rapidapi.com/apiheya/api/sky-scrapper) data via RapidAPI:
@@ -25,14 +27,12 @@ Live [Sky Scrapper](https://rapidapi.com/apiheya/api/sky-scrapper) data via Rapi
 - `GET /api/v1/hotels/searchDestinationOrHotel` — hotel destination entity
 - `GET /api/v1/hotels/searchHotels` — hotels
 
-The key is never sent to the browser. Requests go to the same-origin path `/api/sky/*`,
-which `worker/index.js` forwards to RapidAPI with the key attached:
+The key never reaches the browser. Requests go to `/api/sky/*`, which `worker/index.js` forwards to RapidAPI:
 
-- In production the key comes from the Cloudflare Worker secret `RAPIDAPI_KEY`
-  (`wrangler secret put RAPIDAPI_KEY`). Secrets persist across deploys.
-- `pnpm dev` uses the Vite dev proxy in `vite.config.js`, reading `RAPIDAPI_KEY` from `.env`.
-- `wrangler dev` reads `RAPIDAPI_KEY` from `.dev.vars`.
+- Production: Cloudflare Worker secret `RAPIDAPI_KEY` (`wrangler secret put RAPIDAPI_KEY`)
+- `pnpm dev`: Vite proxy in `vite.config.js`, key from `.env`
+- `wrangler dev`: key from `.dev.vars`
 
 ## State
 
-`TripContext` holds trip state. `useTrip()` reads and updates it. The itinerary persists in localStorage.
+`TripContext` holds trip state; `useTrip()` reads and updates it. Routes are a chain of stops with hop dates; legs and stays are derived. The itinerary persists in `localStorage` under `myCustomTrip`, including a plan snapshot so saved items still price after a refresh.
