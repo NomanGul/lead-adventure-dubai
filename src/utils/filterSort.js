@@ -17,6 +17,7 @@ export const EMPTY_FILTERS = {
   stops: [],
   airlines: [],
   windows: [],
+  categories: [],
   minScore: 0,
   minStars: 0,
   freeCancellation: false,
@@ -32,6 +33,11 @@ export const SORTS = {
     { id: "best", label: "Best" },
     { id: "cheapest", label: "Cheapest" },
     { id: "rated", label: "Top rated" },
+  ],
+  activities: [
+    { id: "best", label: "Best" },
+    { id: "cheapest", label: "Cheapest" },
+    { id: "fastest", label: "Shortest" },
   ],
 };
 
@@ -68,16 +74,21 @@ const PREDICATES = {
   stars: (item, f) => f.minStars === 0 || (item.stars ?? 0) >= f.minStars,
   freeCancellation: (item, f) =>
     !f.freeCancellation ||
+    item.freeCancellation ||
     (item.features ?? []).some((t) => /free cancellation/i.test(t)),
+  categories: (item, f) =>
+    f.categories.length === 0 || f.categories.includes(item.category),
 };
 
 const ACTIVE_KEYS = {
   flights: ["price", "stops", "airlines", "windows"],
   hotels: ["price", "score", "stars", "freeCancellation"],
+  activities: ["price", "score", "categories", "freeCancellation"],
 };
 
 function priceOf(item) {
-  return item.kind === "hotel" ? item.perNight : item.price;
+  if (item.kind === "hotel") return item.perNight;
+  return item.price;
 }
 
 function passes(item, filters, type, skipKey) {
@@ -141,6 +152,26 @@ export function facetCounts(items, filters, type) {
     };
   }
 
+  if (type === "activities") {
+    return {
+      categories: Object.fromEntries(
+        [...new Set(items.map((i) => i.category).filter(Boolean))].sort().map((name) => [
+          name,
+          count("categories", (i) => i.category === name),
+        ]),
+      ),
+      score: Object.fromEntries(
+        [7, 8, 9].map((s) => [s, count("score", (i) => (i.score ?? 0) >= s)]),
+      ),
+      freeCancellation: count(
+        "freeCancellation",
+        (i) =>
+          i.freeCancellation ||
+          (i.features ?? []).some((t) => /free cancellation/i.test(t)),
+      ),
+    };
+  }
+
   return {
     stars: Object.fromEntries(
       [3, 4, 5].map((s) => [s, count("stars", (i) => (i.stars ?? 0) >= s)]),
@@ -161,6 +192,10 @@ export function countActiveFilters(filters, type) {
     n += filters.stops.length ? 1 : 0;
     n += filters.airlines.length ? 1 : 0;
     n += filters.windows.length ? 1 : 0;
+  } else if (type === "activities") {
+    n += filters.categories.length ? 1 : 0;
+    n += filters.minScore ? 1 : 0;
+    n += filters.freeCancellation ? 1 : 0;
   } else {
     n += filters.minStars ? 1 : 0;
     n += filters.minScore ? 1 : 0;

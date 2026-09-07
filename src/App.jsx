@@ -10,7 +10,8 @@ function App() {
   const { hasSearched, editingSearch, itinerary } = useTrip();
 
   const planning = !hasSearched || editingSearch;
-  const savedCount = itinerary.flights.length + itinerary.hotels.length;
+  const savedCount =
+    itinerary.flights.length + itinerary.hotels.length + itinerary.activities.length;
 
   return (
     <div className={`min-h-dvh ${planning ? "bg-ink" : ""}`}>

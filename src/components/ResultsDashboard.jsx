@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Funnel, MagnifyingGlass, X } from "@phosphor-icons/react";
+import { ActivityCard } from "./ActivityCard";
 import { FiltersPanel } from "./FiltersPanel";
 import { FilterChips } from "./FilterChips";
 import { FlightCard } from "./FlightCard";
@@ -19,7 +20,20 @@ import { pluralise } from "../utils/format";
 const TABS = [
   { id: "flights", label: "Flights" },
   { id: "hotels", label: "Stays" },
+  { id: "activities", label: "Activities" },
 ];
+
+const NOUNS = {
+  flights: "flights",
+  hotels: "stays",
+  activities: "activities",
+};
+
+const SINGULAR = {
+  flights: "flight",
+  hotels: "stay",
+  activities: "activity",
+};
 
 export function ResultsDashboard() {
   const {
@@ -32,6 +46,7 @@ export function ResultsDashboard() {
     clearFilters,
     loadingFlights,
     loadingHotels,
+    loadingActivities,
     searchError,
     plainLegs,
     stays,
@@ -41,7 +56,12 @@ export function ResultsDashboard() {
   const [hop, setHop] = useState(0);
 
   const raw = results[activeTab];
-  const loading = activeTab === "flights" ? loadingFlights : loadingHotels;
+  const loadingByTab = {
+    flights: loadingFlights,
+    hotels: loadingHotels,
+    activities: loadingActivities,
+  };
+  const loading = loadingByTab[activeTab];
 
   const bounds = useMemo(() => priceBounds(raw), [raw]);
   const facets = useMemo(() => facetCounts(raw, filters, activeTab), [raw, filters, activeTab]);
@@ -76,10 +96,11 @@ export function ResultsDashboard() {
     : visible;
 
   const hopLabel = hopTabs.find((tab) => tab.index === currentHop)?.label;
-  const noun = activeTab === "flights" ? "flights" : "stays";
+  const noun = NOUNS[activeTab];
   const counts = {
     flights: results.flights.length,
     hotels: results.hotels.length,
+    activities: results.activities.length,
   };
 
   return (
@@ -94,6 +115,7 @@ export function ResultsDashboard() {
               aria-selected={activeTab === tab.id}
               onClick={() => {
                 setActiveTab(tab.id);
+                setSort("best");
                 setSheetOpen(false);
               }}
               className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
@@ -104,7 +126,7 @@ export function ResultsDashboard() {
             >
               {tab.label}
               <span className="ml-1.5 text-xs font-medium text-muted tabular-nums">
-                {(tab.id === "flights" ? loadingFlights : loadingHotels) ? "…" : counts[tab.id]}
+                {loadingByTab[tab.id] ? "…" : counts[tab.id]}
               </span>
             </button>
           ))}
@@ -188,7 +210,7 @@ export function ResultsDashboard() {
                   <span className="block truncate text-[11px] text-muted tabular-nums">
                     {tab.sub ? `${tab.sub} · ` : ""}
                     {tab.count === tab.total
-                      ? pluralise(tab.total, activeTab === "flights" ? "flight" : "stay")
+                      ? pluralise(tab.total, SINGULAR[activeTab])
                       : `${tab.count} of ${tab.total}`}
                   </span>
                 </span>
@@ -264,12 +286,14 @@ export function ResultsDashboard() {
               {shown.map((item) =>
                 activeTab === "flights" ? (
                   <FlightCard key={item.id} flight={item} />
-                ) : (
+                ) : activeTab === "hotels" ? (
                   <HotelCard
                     key={item.id}
                     hotel={item}
                     nights={stays[item.legIndex]?.nights ?? 0}
                   />
+                ) : (
+                  <ActivityCard key={item.id} activity={item} />
                 ),
               )}
 

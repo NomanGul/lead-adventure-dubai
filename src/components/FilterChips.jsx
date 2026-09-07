@@ -39,6 +39,28 @@ export function FilterChips() {
     filters.airlines.forEach((name) =>
       chips.push({ key: `airline-${name}`, label: name, clear: () => drop("airlines", name) }),
     );
+  } else if (activeTab === "activities") {
+    filters.categories.forEach((name) =>
+      chips.push({
+        key: `category-${name}`,
+        label: name,
+        clear: () => drop("categories", name),
+      }),
+    );
+    if (filters.minScore) {
+      chips.push({
+        key: "score",
+        label: `Scores ${filters.minScore}+`,
+        clear: () => set({ minScore: 0 }),
+      });
+    }
+    if (filters.freeCancellation) {
+      chips.push({
+        key: "cancel",
+        label: "Free cancellation",
+        clear: () => set({ freeCancellation: false }),
+      });
+    }
   } else {
     if (filters.minStars) {
       chips.push({

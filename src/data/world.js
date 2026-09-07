@@ -60,10 +60,10 @@ export const DESTINATIONS = [
 ];
 
 export const POPULAR_ROUTES = [
-  { from: "Dubai", to: "London" },
-  { from: "Dubai", to: "Istanbul" },
-  { from: "Dubai", to: "Singapore" },
-  { from: "Dubai", to: "Paris" },
+  { from: "London", to: "Dubai" },
+  { from: "Istanbul", to: "Dubai" },
+  { from: "Singapore", to: "Dubai" },
+  { from: "Paris", to: "Dubai" },
 ];
 
 const normaliseCity = (value) => (value ?? "").toLowerCase().replace(/[^a-z]/g, "");

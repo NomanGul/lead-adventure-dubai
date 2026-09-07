@@ -66,7 +66,11 @@ export function FiltersPanel({ facets, bounds }) {
           }
         />
         <p className="text-[11px] text-muted">
-          {activeTab === "flights" ? "Per person, round trip" : "Per night"}
+          {activeTab === "flights"
+            ? "Per person, round trip"
+            : activeTab === "activities"
+              ? "Per person"
+              : "Per night"}
         </p>
       </Section>
 
@@ -111,6 +115,49 @@ export function FiltersPanel({ facets, bounds }) {
               </div>
             </Section>
           ) : null}
+        </>
+      ) : activeTab === "activities" ? (
+        <>
+          {Object.keys(facets.categories ?? {}).length > 0 ? (
+            <Section title="Category">
+              <div className="max-h-52 space-y-0.5 overflow-y-auto">
+                {Object.entries(facets.categories).map(([name, count]) => (
+                  <CheckRow
+                    key={name}
+                    label={name}
+                    count={count}
+                    checked={filters.categories.includes(name)}
+                    onChange={() => toggleIn("categories", name)}
+                  />
+                ))}
+              </div>
+            </Section>
+          ) : null}
+
+          <Section title="Guest score">
+            {[
+              { value: 9, label: "Excellent 9+" },
+              { value: 8, label: "Very good 8+" },
+              { value: 7, label: "Good 7+" },
+            ].map((option) => (
+              <CheckRow
+                key={option.value}
+                label={option.label}
+                count={facets.score?.[option.value] ?? 0}
+                checked={filters.minScore === option.value}
+                onChange={(on) => set({ minScore: on ? option.value : 0 })}
+              />
+            ))}
+          </Section>
+
+          <Section title="Booking options">
+            <CheckRow
+              label="Free cancellation"
+              count={facets.freeCancellation ?? 0}
+              checked={filters.freeCancellation}
+              onChange={(on) => set({ freeCancellation: on })}
+            />
+          </Section>
         </>
       ) : (
         <>

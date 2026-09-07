@@ -27,6 +27,8 @@ Live [Sky Scrapper](https://rapidapi.com/apiheya/api/sky-scrapper) data via Rapi
 - `GET /api/v1/hotels/searchDestinationOrHotel` — hotel destination entity
 - `GET /api/v1/hotels/searchHotels` — hotels
 
+Activities are generated locally in `src/data/activities.js` (seeded bulk mock data per destination city). No third-party activities API.
+
 The key never reaches the browser. Requests go to `/api/sky/*`, which `worker/index.js` forwards to RapidAPI:
 
 - Production: Cloudflare Worker secret `RAPIDAPI_KEY` (`wrangler secret put RAPIDAPI_KEY`)

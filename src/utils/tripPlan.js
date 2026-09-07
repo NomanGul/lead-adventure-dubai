@@ -30,11 +30,17 @@ export function tripTotals(itinerary, stays, travelers) {
     return sum + hotel.perNight * nights;
   }, 0);
 
+  const activitiesTotal = itinerary.activities.reduce(
+    (sum, activity) => sum + activity.price * heads,
+    0,
+  );
+
   return {
     flightsTotal,
     hotelsTotal,
+    activitiesTotal,
     travelers: heads,
-    grandTotal: flightsTotal + hotelsTotal,
+    grandTotal: flightsTotal + hotelsTotal + activitiesTotal,
     nights: stays.reduce((sum, stay) => sum + stay.nights, 0),
     bookedNights,
   };
@@ -42,6 +48,7 @@ export function tripTotals(itinerary, stays, travelers) {
 
 export function auditTrip(itinerary, legs, stays) {
   const issues = [];
+  const activities = itinerary.activities;
 
   legs.forEach((leg, index) => {
     if (!leg.origin || !leg.destination) return;
@@ -57,6 +64,7 @@ export function auditTrip(itinerary, legs, stays) {
 
     const stay = stays[index];
     const hotels = itinerary.hotels.filter((h) => h.legIndex === index);
+    const stopActivities = activities.filter((a) => a.legIndex === index);
 
     if (stay.nights > 0 && hotels.length === 0) {
       issues.push({
@@ -81,6 +89,14 @@ export function auditTrip(itinerary, legs, stays) {
         text: `Stay in ${leg.destination} has no nights. Set a later date to price it.`,
       });
     }
+
+    if (stay.nights > 0 && stopActivities.length === 0) {
+      issues.push({
+        id: `activity-${index}`,
+        tone: "warn",
+        text: `${pluralise(stay.nights, "night")} in ${leg.destination} with no activities saved.`,
+      });
+    }
   });
 
   itinerary.flights.forEach((flight) => {
@@ -93,6 +109,26 @@ export function auditTrip(itinerary, legs, stays) {
         id: `mismatch-${flight.id}`,
         tone: "error",
         text: `A saved flight lands in ${arrivalCity}, but this leg goes to ${leg.destination}.`,
+      });
+    }
+  });
+
+  activities.forEach((activity) => {
+    const leg = legs[activity.legIndex];
+    if (!leg) {
+      issues.push({
+        id: `activity-leg-${activity.id}`,
+        tone: "error",
+        text: `${activity.name} is saved on a stop that is no longer in this trip.`,
+      });
+      return;
+    }
+
+    if (activity.city && leg.destination && !sameCity(activity.city, leg.destination)) {
+      issues.push({
+        id: `activity-city-${activity.id}`,
+        tone: "error",
+        text: `${activity.name} is for ${activity.city}, but this stop is ${leg.destination}.`,
       });
     }
   });
@@ -140,6 +176,18 @@ export function buildTimeline(itinerary, legs, stays) {
       item: hotel,
       stay,
       city: legs[hotel.legIndex]?.destination ?? "",
+    });
+  });
+
+  itinerary.activities.forEach((activity) => {
+    const stay = stays[activity.legIndex];
+    events.push({
+      id: `a-${activity.id}`,
+      date: stay?.checkIn ?? legs[activity.legIndex]?.departure ?? "",
+      type: "activity",
+      item: activity,
+      stay,
+      city: activity.city || legs[activity.legIndex]?.destination || "",
     });
   });
 

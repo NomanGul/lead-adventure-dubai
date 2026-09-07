@@ -21,7 +21,8 @@ export function ItineraryDock({ desktop = false }) {
   const plan = itinerary.plan;
   const heads = plan.legs?.length ? (plan.adults ?? 1) + (plan.children ?? 0) : travellers;
   const totals = tripTotals(itinerary, savedStays, heads);
-  const count = itinerary.flights.length + itinerary.hotels.length;
+  const count =
+    itinerary.flights.length + itinerary.hotels.length + itinerary.activities.length;
 
   if (count === 0) return null;
 

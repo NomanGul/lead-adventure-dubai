@@ -5,6 +5,7 @@ import {
   searchHotelDestination,
   searchHotels,
 } from "../api/skyScrapper";
+import { searchActivities } from "../data/activities";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { normalizeFlight, normalizeHotel } from "../utils/normalize";
 import { EMPTY_FILTERS } from "../utils/filterSort";
@@ -26,6 +27,7 @@ function makeHop(overrides = {}) {
 const initialItinerary = {
   flights: [],
   hotels: [],
+  activities: [],
   plan: { legs: [], returnDate: "", adults: 1, children: 0 },
 };
 
@@ -71,6 +73,7 @@ export function TripProvider({ children }) {
   const [editingSearch, setEditingSearch] = useState(false);
   const [loadingFlights, setLoadingFlights] = useState(false);
   const [loadingHotels, setLoadingHotels] = useState(false);
+  const [loadingActivities, setLoadingActivities] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [notice, setNotice] = useState(null);
   const [resolving, setResolving] = useState(0);
@@ -79,7 +82,7 @@ export function TripProvider({ children }) {
   const [activeTab, setActiveTab] = useState("flights");
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [sort, setSort] = useState("best");
-  const [results, setResults] = useState({ flights: [], hotels: [] });
+  const [results, setResults] = useState({ flights: [], hotels: [], activities: [] });
 
   const [storedItinerary, setItinerary] = useLocalStorage("myCustomTrip", initialItinerary);
   const noticeTimer = useRef(null);
@@ -89,7 +92,7 @@ export function TripProvider({ children }) {
     [storedItinerary],
   );
 
-  const isSearching = loadingFlights || loadingHotels;
+  const isSearching = loadingFlights || loadingHotels || loadingActivities;
 
   const legs = useMemo(
     () =>
@@ -306,10 +309,11 @@ export function TripProvider({ children }) {
     setHasSearched(true);
     setEditingSearch(false);
     setSearchError("");
-    setResults({ flights: [], hotels: [] });
+    setResults({ flights: [], hotels: [], activities: [] });
     setFilters(EMPTY_FILTERS);
     setLoadingFlights(true);
     setLoadingHotels(true);
+    setLoadingActivities(true);
 
     const loadFlights = async () => {
       const collected = [];
@@ -380,7 +384,29 @@ export function TripProvider({ children }) {
       setLoadingHotels(false);
     };
 
-    await Promise.all([loadFlights(), loadHotels()]);
+    const loadActivities = async () => {
+      const collected = [];
+
+      for (let i = 0; i < legs.length; i += 1) {
+        const leg = legs[i];
+        const city = cityName(leg.destinationPlace) || leg.destination;
+        if (!city) continue;
+
+        try {
+          const activities = await searchActivities({ city, legIndex: i, limit: 24 });
+          collected.push(...activities.map((item) => ({ ...item, legIndex: i })));
+        } catch (error) {
+          setSearchError((prev) => prev || error.message || "Activity search failed.");
+        }
+
+        setResults((prev) => ({ ...prev, activities: [...collected] }));
+        if (i < legs.length - 1) await sleep(350);
+      }
+
+      setLoadingActivities(false);
+    };
+
+    await Promise.all([loadFlights(), loadHotels(), loadActivities()]);
   };
 
   const planSnapshot = () => ({
@@ -401,7 +427,10 @@ export function TripProvider({ children }) {
 
       if (alreadyThere) {
         const next = { ...base, [type]: list.filter((x) => x.id !== item.id) };
-        const empty = next.flights.length === 0 && next.hotels.length === 0;
+        const empty =
+          next.flights.length === 0 &&
+          next.hotels.length === 0 &&
+          next.activities.length === 0;
         return empty ? { ...initialItinerary } : next;
       }
 
@@ -469,6 +498,7 @@ export function TripProvider({ children }) {
     isSearching,
     loadingFlights,
     loadingHotels,
+    loadingActivities,
     searchError,
     notice,
 

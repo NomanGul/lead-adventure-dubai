@@ -1,6 +1,13 @@
-import { AirplaneTilt, Bed, SuitcaseRolling, Trash, Warning } from "@phosphor-icons/react";
+import {
+  AirplaneTilt,
+  Bed,
+  PersonSimpleWalk,
+  SuitcaseRolling,
+  Trash,
+  Warning,
+} from "@phosphor-icons/react";
 import { useTrip } from "../context/useTrip";
-import { formatDateLong, formatMoney, formatTime, pluralise } from "../utils/format";
+import { formatDateLong, formatDuration, formatMoney, formatTime, pluralise } from "../utils/format";
 import { auditTrip, buildTimeline, tripTotals } from "../utils/tripPlan";
 
 function groupByDate(events) {
@@ -12,6 +19,18 @@ function groupByDate(events) {
   });
 
   return [...days.entries()];
+}
+
+function typeKey(type) {
+  if (type === "flight") return "flights";
+  if (type === "hotel") return "hotels";
+  return "activities";
+}
+
+function eventDotClass(type) {
+  if (type === "flight") return "bg-brand-600";
+  if (type === "hotel") return "bg-amber-500";
+  return "bg-emerald-600";
 }
 
 export function ItineraryPanel() {
@@ -26,7 +45,8 @@ export function ItineraryPanel() {
   const timeline = buildTimeline(itinerary, legs, savedStays);
   const days = groupByDate(timeline);
 
-  const itemCount = itinerary.flights.length + itinerary.hotels.length;
+  const itemCount =
+    itinerary.flights.length + itinerary.hotels.length + itinerary.activities.length;
 
   if (itemCount === 0) {
     return (
@@ -36,7 +56,7 @@ export function ItineraryPanel() {
         </span>
         <h2 className="mt-3 text-sm font-semibold text-ink">Your trip is empty</h2>
         <p className="mt-1 text-xs text-muted">
-          Save a flight or a stay and it will show up here as a day-by-day plan.
+          Save a flight, stay, or activity and it will show up here as a day-by-day plan.
         </p>
       </div>
     );
@@ -83,14 +103,14 @@ export function ItineraryPanel() {
                 <li key={event.id} className="relative">
                   <span
                     aria-hidden
-                    className={`absolute top-2 -left-[calc(0.875rem+0.5px)] grid size-4 -translate-x-1/2 place-items-center rounded-full ring-2 ring-surface ${
-                      event.type === "flight" ? "bg-brand-600" : "bg-amber-500"
-                    }`}
+                    className={`absolute top-2 -left-[calc(0.875rem+0.5px)] grid size-4 -translate-x-1/2 place-items-center rounded-full ring-2 ring-surface ${eventDotClass(event.type)}`}
                   >
                     {event.type === "flight" ? (
                       <AirplaneTilt size={10} weight="fill" className="text-white" aria-hidden />
-                    ) : (
+                    ) : event.type === "hotel" ? (
                       <Bed size={10} weight="fill" className="text-white" aria-hidden />
+                    ) : (
+                      <PersonSimpleWalk size={10} weight="fill" className="text-white" aria-hidden />
                     )}
                   </span>
 
@@ -113,7 +133,7 @@ export function ItineraryPanel() {
                             </p>
                           ) : null}
                         </>
-                      ) : (
+                      ) : event.type === "hotel" ? (
                         <>
                           <p className="truncate text-xs font-semibold text-ink">{event.item.name}</p>
                           <p className="text-[11px] text-muted">
@@ -124,14 +144,25 @@ export function ItineraryPanel() {
                             {event.item.perNightLabel || formatMoney(event.item.perNight)} per night
                           </p>
                         </>
+                      ) : (
+                        <>
+                          <p className="truncate text-xs font-semibold text-ink">{event.item.name}</p>
+                          <p className="text-[11px] text-muted">
+                            {event.city}
+                            {event.item.durationMinutes
+                              ? ` · ${formatDuration(event.item.durationMinutes)}`
+                              : ""}
+                          </p>
+                          <p className="text-[11px] text-muted">
+                            {formatMoney(event.item.price)} × {pluralise(heads, "traveller")}
+                          </p>
+                        </>
                       )}
                     </div>
 
                     <button
                       type="button"
-                      onClick={() =>
-                        toggleSaved(event.type === "flight" ? "flights" : "hotels", event.item)
-                      }
+                      onClick={() => toggleSaved(typeKey(event.type), event.item)}
                       aria-label={`Remove ${
                         event.type === "flight" ? event.leg.carrierName : event.item.name
                       } from trip`}
@@ -161,6 +192,15 @@ export function ItineraryPanel() {
             {totals.bookedNights > 0 ? `Stays · ${pluralise(totals.bookedNights, "night")}` : "Stays"}
           </dt>
           <dd className="font-semibold text-ink tabular-nums">{formatMoney(totals.hotelsTotal)}</dd>
+        </div>
+        <div className="flex justify-between gap-3">
+          <dt className="text-muted">
+            Activities
+            {heads > 1 ? ` × ${heads}` : ""}
+          </dt>
+          <dd className="font-semibold text-ink tabular-nums">
+            {formatMoney(totals.activitiesTotal)}
+          </dd>
         </div>
       </dl>
 

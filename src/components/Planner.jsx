@@ -216,7 +216,7 @@ export function Planner({ bottomInset = false, fill = false }) {
                 ) : (
                   <>
                     <MagnifyingGlass size={16} weight="bold" aria-hidden />
-                    Search flights &amp; stays
+                    Search flights, stays &amp; activities
                   </>
                 )}
               </button>
