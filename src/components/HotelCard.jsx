@@ -1,4 +1,10 @@
-import { CaretLeft, CaretRight, Check, ImageSquare, Star } from "@phosphor-icons/react";
+import {
+  CaretLeft,
+  CaretRight,
+  Check,
+  ImageSquare,
+  Star,
+} from "@phosphor-icons/react";
 import { useState } from "react";
 import { SaveButton } from "./SaveButton";
 import { useTrip } from "../context/useTrip";
@@ -8,9 +14,18 @@ function Stars({ count }) {
   if (!count) return null;
 
   return (
-    <span className="flex items-center gap-0.5" aria-label={`${count} star hotel`}>
+    <span
+      className="flex items-center gap-0.5"
+      aria-label={`${count} star hotel`}
+    >
       {Array.from({ length: count }, (_, i) => (
-        <Star key={i} size={12} weight="fill" className="text-amber-500" aria-hidden />
+        <Star
+          key={i}
+          size={12}
+          weight="fill"
+          className="text-amber-500"
+          aria-hidden
+        />
       ))}
     </span>
   );
@@ -32,7 +47,9 @@ export function HotelCard({ hotel, nights }) {
   return (
     <article
       className={`group overflow-hidden rounded-2xl border bg-surface transition ${
-        saved ? "border-brand-400 ring-1 ring-brand-400/40" : "border-line hover:border-brand-300 hover:shadow-md"
+        saved
+          ? "border-brand-400 ring-1 ring-brand-400/40"
+          : "border-line hover:border-brand-300 hover:shadow-md"
       }`}
     >
       <div className="relative aspect-16/10 overflow-hidden bg-canvas sm:aspect-21/9">
@@ -77,7 +94,10 @@ export function HotelCard({ hotel, nights }) {
               <CaretRight size={14} weight="bold" aria-hidden />
             </button>
 
-            <span className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5" aria-hidden>
+            <span
+              className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5"
+              aria-hidden
+            >
               {images.map((src, i) => (
                 <span
                   key={src}
@@ -94,7 +114,9 @@ export function HotelCard({ hotel, nights }) {
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="text-sm font-semibold text-pretty text-ink">{hotel.name}</h3>
+            <h3 className="text-sm font-semibold text-pretty text-ink">
+              {hotel.name}
+            </h3>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
               <Stars count={hotel.stars} />
               {hotel.distance ? (
@@ -106,9 +128,12 @@ export function HotelCard({ hotel, nights }) {
           {hotel.score > 0 ? (
             <div className="flex shrink-0 items-center gap-2">
               <div className="text-right">
-                <p className="text-xs font-semibold text-ink">{hotel.scoreLabel}</p>
+                <p className="text-xs font-semibold text-ink">
+                  {hotel.scoreLabel}
+                </p>
                 <p className="text-[11px] text-muted">
-                  {hotel.reviewCountLabel} review{hotel.reviewCount === 1 ? "" : "s"}
+                  {hotel.reviewCountLabel} review
+                  {hotel.reviewCount === 1 ? "" : "s"}
                 </p>
               </div>
               <p className="grid size-9 shrink-0 place-items-center rounded-lg rounded-tr-none bg-brand-700 text-sm font-bold text-white tabular-nums">
@@ -140,20 +165,29 @@ export function HotelCard({ hotel, nights }) {
               </span>
               <span className="text-xs text-muted">per night</span>
               {hotel.listPrice ? (
-                <span className="text-xs text-muted line-through">{hotel.listPrice}</span>
+                <span className="text-xs text-muted line-through">
+                  {hotel.listPrice}
+                </span>
               ) : null}
             </p>
 
             <p className="text-xs font-medium text-ink">
               {hotel.stayTotalLabel ||
-                (stayTotal > 0 ? `${formatMoney(stayTotal)} for ${pluralise(nights, "night")}` : "")}
+                (stayTotal > 0
+                  ? `${formatMoney(stayTotal)} for ${pluralise(nights, "night")}`
+                  : "")}
             </p>
             {hotel.taxNote ? (
-              <p className="mt-0.5 text-[11px] text-muted">Taxes and fees included</p>
+              <p className="mt-0.5 text-[11px] text-muted">
+                Taxes and fees included
+              </p>
             ) : null}
           </div>
 
-          <SaveButton saved={saved} onClick={() => toggleSaved("hotels", hotel)} />
+          <SaveButton
+            saved={saved}
+            onClick={() => toggleSaved("hotels", hotel)}
+          />
         </div>
       </div>
     </article>

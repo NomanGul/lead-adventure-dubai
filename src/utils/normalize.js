@@ -61,7 +61,9 @@ export function normalizeFlight(raw) {
     tags: raw.tags ?? [],
     ecoDelta: Number(raw.eco?.ecoContenderDelta) || 0,
     isSelfTransfer: Boolean(raw.isSelfTransfer),
-    refundable: Boolean(fare.isCancellationAllowed || fare.isPartiallyRefundable),
+    refundable: Boolean(
+      fare.isCancellationAllowed || fare.isPartiallyRefundable,
+    ),
     changeable: Boolean(fare.isChangeAllowed || fare.isPartiallyChangeable),
     legs,
     outbound: legs[0] ?? null,
@@ -74,7 +76,9 @@ export function normalizeFlight(raw) {
 }
 
 export function normalizeHotel(raw) {
-  const images = (raw.images?.length ? raw.images : [raw.heroImage]).filter(Boolean);
+  const images = (raw.images?.length ? raw.images : [raw.heroImage]).filter(
+    Boolean,
+  );
 
   return {
     id: String(raw.hotelId),

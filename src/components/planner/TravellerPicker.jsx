@@ -5,7 +5,8 @@ import { useTrip } from "../../context/useTrip";
 import { pluralise } from "../../utils/format";
 
 export function TravellerPicker() {
-  const { adults, setAdults, childCount, setChildCount, travellers, errors } = useTrip();
+  const { adults, setAdults, childCount, setChildCount, travellers, errors } =
+    useTrip();
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
 
@@ -43,7 +44,12 @@ export function TravellerPicker() {
       >
         <User size={16} className="shrink-0 opacity-70" aria-hidden />
         {pluralise(travellers, "traveller")}
-        <CaretDown size={12} weight="bold" className="shrink-0 opacity-60" aria-hidden />
+        <CaretDown
+          size={12}
+          weight="bold"
+          className="shrink-0 opacity-60"
+          aria-hidden
+        />
       </button>
 
       {open ? (

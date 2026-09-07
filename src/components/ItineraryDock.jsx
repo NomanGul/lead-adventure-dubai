@@ -6,7 +6,8 @@ import { formatMoney, pluralise } from "../utils/format";
 import { tripTotals } from "../utils/tripPlan";
 
 export function ItineraryDock({ desktop = false }) {
-  const { itinerary, savedStays, travellers, tripOpen, setTripOpen } = useTrip();
+  const { itinerary, savedStays, travellers, tripOpen, setTripOpen } =
+    useTrip();
 
   useEffect(() => {
     if (!tripOpen) return;
@@ -19,10 +20,14 @@ export function ItineraryDock({ desktop = false }) {
   }, [tripOpen, setTripOpen]);
 
   const plan = itinerary.plan;
-  const heads = plan.legs?.length ? (plan.adults ?? 1) + (plan.children ?? 0) : travellers;
+  const heads = plan.legs?.length
+    ? (plan.adults ?? 1) + (plan.children ?? 0)
+    : travellers;
   const totals = tripTotals(itinerary, savedStays, heads);
   const count =
-    itinerary.flights.length + itinerary.hotels.length + itinerary.activities.length;
+    itinerary.flights.length +
+    itinerary.hotels.length +
+    itinerary.activities.length;
 
   if (count === 0) return null;
 

@@ -13,7 +13,9 @@ export function ActivityCard({ activity }) {
   return (
     <article
       className={`group overflow-hidden rounded-2xl border bg-surface transition ${
-        saved ? "border-brand-400 ring-1 ring-brand-400/40" : "border-line hover:border-brand-300 hover:shadow-md"
+        saved
+          ? "border-brand-400 ring-1 ring-brand-400/40"
+          : "border-line hover:border-brand-300 hover:shadow-md"
       }`}
     >
       <div className="relative aspect-16/10 overflow-hidden bg-canvas sm:aspect-21/9">
@@ -42,7 +44,9 @@ export function ActivityCard({ activity }) {
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="text-sm font-semibold text-pretty text-ink">{activity.name}</h3>
+            <h3 className="text-sm font-semibold text-pretty text-ink">
+              {activity.name}
+            </h3>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted">
               <span className="inline-flex items-center gap-1">
                 <Clock size={12} weight="bold" aria-hidden />
@@ -55,9 +59,12 @@ export function ActivityCard({ activity }) {
           {activity.score > 0 ? (
             <div className="flex shrink-0 items-center gap-2">
               <div className="text-right">
-                <p className="text-xs font-semibold text-ink">{activity.scoreLabel}</p>
+                <p className="text-xs font-semibold text-ink">
+                  {activity.scoreLabel}
+                </p>
                 <p className="text-[11px] text-muted">
-                  {activity.reviewCountLabel} review{activity.reviewCount === 1 ? "" : "s"}
+                  {activity.reviewCountLabel} review
+                  {activity.reviewCount === 1 ? "" : "s"}
                 </p>
               </div>
               <p className="grid size-9 shrink-0 place-items-center rounded-lg rounded-tr-none bg-brand-700 text-sm font-bold text-white tabular-nums">
@@ -96,7 +103,10 @@ export function ActivityCard({ activity }) {
             ) : null}
           </div>
 
-          <SaveButton saved={saved} onClick={() => toggleSaved("activities", activity)} />
+          <SaveButton
+            saved={saved}
+            onClick={() => toggleSaved("activities", activity)}
+          />
         </div>
       </div>
     </article>

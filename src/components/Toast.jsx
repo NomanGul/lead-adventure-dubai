@@ -19,7 +19,12 @@ export function Toast() {
           }`}
         >
           {notice.tone === "success" ? (
-            <CheckCircle size={16} weight="fill" className="text-brand-300" aria-hidden />
+            <CheckCircle
+              size={16}
+              weight="fill"
+              className="text-brand-300"
+              aria-hidden
+            />
           ) : null}
           {notice.text}
         </p>

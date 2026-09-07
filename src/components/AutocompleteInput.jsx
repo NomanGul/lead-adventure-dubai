@@ -3,7 +3,14 @@ import { useEffect, useId, useRef, useState } from "react";
 import { searchAirports } from "../api/skyScrapper";
 import { DESTINATIONS } from "../data/world";
 
-const POPULAR_CITIES = ["Dubai", "London", "Istanbul", "Singapore", "Paris", "New York"]
+const POPULAR_CITIES = [
+  "Dubai",
+  "London",
+  "Istanbul",
+  "Singapore",
+  "Paris",
+  "New York",
+]
   .map((city) => DESTINATIONS.find((d) => d.city === city))
   .filter(Boolean);
 
@@ -66,7 +73,11 @@ export function AutocompleteInput({
   const places = searched ? result.items : [];
   const options = browsing
     ? POPULAR_CITIES.map((d) => ({ kind: "city", city: d, key: d.city }))
-    : places.map((p) => ({ kind: "place", place: p, key: p.navigation?.entityId ?? p.presentation?.title }));
+    : places.map((p) => ({
+        kind: "place",
+        place: p,
+        key: p.navigation?.entityId ?? p.presentation?.title,
+      }));
 
   const choose = (option) => {
     if (option.kind === "city") onPickCity?.(option.city.city);
@@ -85,7 +96,9 @@ export function AutocompleteInput({
       setHighlight((i) => (options.length ? (i + 1) % options.length : 0));
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
-      setHighlight((i) => (options.length ? (i - 1 + options.length) % options.length : 0));
+      setHighlight((i) =>
+        options.length ? (i - 1 + options.length) % options.length : 0,
+      );
     } else if (event.key === "Enter" && open && options[highlight]) {
       event.preventDefault();
       choose(options[highlight]);
@@ -95,7 +108,8 @@ export function AutocompleteInput({
   };
 
   const errorId = error ? `${id}-error` : undefined;
-  const showPanel = open && (loading || options.length > 0 || (searched && !loading));
+  const showPanel =
+    open && (loading || options.length > 0 || (searched && !loading));
 
   return (
     <div ref={rootRef} className="relative">
@@ -118,7 +132,9 @@ export function AutocompleteInput({
           aria-autocomplete="list"
           aria-invalid={Boolean(error)}
           aria-describedby={errorId}
-          aria-activedescendant={open && options[highlight] ? `${listId}-${highlight}` : undefined}
+          aria-activedescendant={
+            open && options[highlight] ? `${listId}-${highlight}` : undefined
+          }
           value={value}
           placeholder={placeholder}
           autoFocus={autoFocus}
@@ -190,7 +206,8 @@ export function AutocompleteInput({
             const title =
               option.kind === "city"
                 ? option.city.city
-                : option.place.presentation?.suggestionTitle || option.place.presentation?.title;
+                : option.place.presentation?.suggestionTitle ||
+                  option.place.presentation?.title;
             const subtitle =
               option.kind === "city"
                 ? option.city.country
@@ -204,7 +221,9 @@ export function AutocompleteInput({
                 role="option"
                 aria-selected={index === highlight}
                 className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition ${
-                  index === highlight ? "bg-brand-50 text-brand-800" : "text-ink hover:bg-canvas"
+                  index === highlight
+                    ? "bg-brand-50 text-brand-800"
+                    : "text-ink hover:bg-canvas"
                 }`}
                 onMouseEnter={() => setHighlight(index)}
                 onMouseDown={(event) => {
@@ -213,14 +232,18 @@ export function AutocompleteInput({
                 }}
               >
                 <MapPin size={16} className="shrink-0 text-muted" aria-hidden />
-                <span className="min-w-0 flex-1 truncate font-medium">{title}</span>
+                <span className="min-w-0 flex-1 truncate font-medium">
+                  {title}
+                </span>
                 {code ? (
                   <span className="shrink-0 rounded bg-canvas px-1.5 py-0.5 font-mono text-[11px] text-muted">
                     {code}
                   </span>
                 ) : null}
                 {subtitle && !code ? (
-                  <span className="shrink-0 truncate text-xs text-muted">{subtitle}</span>
+                  <span className="shrink-0 truncate text-xs text-muted">
+                    {subtitle}
+                  </span>
                 ) : null}
               </li>
             );

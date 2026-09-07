@@ -123,8 +123,9 @@ export function priceBounds(items) {
 
 export function facetCounts(items, filters, type) {
   const count = (skipKey, predicate) =>
-    items.filter((item) => passes(item, filters, type, skipKey) && predicate(item))
-      .length;
+    items.filter(
+      (item) => passes(item, filters, type, skipKey) && predicate(item),
+    ).length;
 
   if (type === "flights") {
     return {
@@ -135,10 +136,12 @@ export function facetCounts(items, filters, type) {
         ]),
       ),
       airlines: Object.fromEntries(
-        [...new Set(items.flatMap((i) => i.airlines ?? []))].sort().map((name) => [
-          name,
-          count("airlines", (i) => (i.airlines ?? []).includes(name)),
-        ]),
+        [...new Set(items.flatMap((i) => i.airlines ?? []))]
+          .sort()
+          .map((name) => [
+            name,
+            count("airlines", (i) => (i.airlines ?? []).includes(name)),
+          ]),
       ),
       windows: Object.fromEntries(
         TIME_WINDOWS.map((w) => [
@@ -155,10 +158,12 @@ export function facetCounts(items, filters, type) {
   if (type === "activities") {
     return {
       categories: Object.fromEntries(
-        [...new Set(items.map((i) => i.category).filter(Boolean))].sort().map((name) => [
-          name,
-          count("categories", (i) => i.category === name),
-        ]),
+        [...new Set(items.map((i) => i.category).filter(Boolean))]
+          .sort()
+          .map((name) => [
+            name,
+            count("categories", (i) => i.category === name),
+          ]),
       ),
       score: Object.fromEntries(
         [7, 8, 9].map((s) => [s, count("score", (i) => (i.score ?? 0) >= s)]),

@@ -16,7 +16,9 @@ export function RangeSlider({ min, max, from, to, onChange }) {
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between">
-        <span className="text-sm font-semibold text-ink tabular-nums">{formatMoney(low)}</span>
+        <span className="text-sm font-semibold text-ink tabular-nums">
+          {formatMoney(low)}
+        </span>
         <span className="text-sm font-semibold text-ink tabular-nums">
           {formatMoney(high)}
           {high >= max ? "+" : ""}

@@ -13,7 +13,10 @@ export function FlightLeg({ leg }) {
     stopLabel =
       leg.layovers.length > 0
         ? `${count} · ${leg.layovers
-            .map((stop) => `${formatDuration(stop.minutes)} ${stop.city || stop.code}`)
+            .map(
+              (stop) =>
+                `${formatDuration(stop.minutes)} ${stop.city || stop.code}`,
+            )
             .join(" · ")}`
         : count;
   }
@@ -21,14 +24,18 @@ export function FlightLeg({ leg }) {
   return (
     <div className="flex items-center gap-3">
       <div className="text-right">
-        <p className="text-sm font-semibold text-ink tabular-nums">{formatTime(leg.departure)}</p>
+        <p className="text-sm font-semibold text-ink tabular-nums">
+          {formatTime(leg.departure)}
+        </p>
         <p className="truncate text-[11px] text-muted" title={origin}>
           {origin}
         </p>
       </div>
 
       <div className="min-w-0 flex-1">
-        <p className="text-center text-[11px] font-medium text-muted">{formatDuration(leg.durationMinutes)}</p>
+        <p className="text-center text-[11px] font-medium text-muted">
+          {formatDuration(leg.durationMinutes)}
+        </p>
 
         <div className="relative my-1.5 flex items-center" aria-hidden>
           <span className="size-1.5 shrink-0 rounded-full bg-brand-500" />
@@ -41,7 +48,12 @@ export function FlightLeg({ leg }) {
               />
             ))}
           </span>
-          <AirplaneTilt size={12} weight="fill" className="shrink-0 text-brand-600" aria-hidden />
+          <AirplaneTilt
+            size={12}
+            weight="fill"
+            className="shrink-0 text-brand-600"
+            aria-hidden
+          />
         </div>
 
         <p
@@ -54,7 +66,9 @@ export function FlightLeg({ leg }) {
       </div>
 
       <div>
-        <p className="text-sm font-semibold text-ink tabular-nums">{formatTime(leg.arrival)}</p>
+        <p className="text-sm font-semibold text-ink tabular-nums">
+          {formatTime(leg.arrival)}
+        </p>
         <p className="truncate text-[11px] text-muted" title={destination}>
           {destination}
         </p>

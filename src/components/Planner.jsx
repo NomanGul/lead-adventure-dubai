@@ -89,7 +89,8 @@ export function Planner({ bottomInset = false, fill = false }) {
 
   let hint = "Drag to spin · scroll to zoom";
   if (step === 0) {
-    if (openIndex !== null) hint = `Tap a city to set “${questionFor(openIndex)}”`;
+    if (openIndex !== null)
+      hint = `Tap a city to set “${questionFor(openIndex)}”`;
     else if (stops.length < MAX_STOPS) hint = "Tap a city to add a stop";
     else hint = "Drag to spin";
   }
@@ -119,7 +120,10 @@ export function Planner({ bottomInset = false, fill = false }) {
       >
         <div className="order-2 min-w-0 lg:order-1">
           <div className="flex items-center justify-between gap-4">
-            <ol className="flex items-center gap-3" aria-label="Planner progress">
+            <ol
+              className="flex items-center gap-3"
+              aria-label="Planner progress"
+            >
               {STEP_LABELS.map((label, index) => (
                 <li key={label} className="flex items-center gap-3">
                   <button
@@ -127,7 +131,9 @@ export function Planner({ bottomInset = false, fill = false }) {
                     onClick={() => goTo(index)}
                     aria-current={index === step ? "step" : undefined}
                     className={`text-[11px] font-semibold tracking-[0.14em] uppercase transition ${
-                      index === step ? "text-white" : "text-white/40 hover:text-white/70"
+                      index === step
+                        ? "text-white"
+                        : "text-white/40 hover:text-white/70"
                     }`}
                   >
                     {label}
@@ -210,7 +216,10 @@ export function Planner({ bottomInset = false, fill = false }) {
               >
                 {isSearching ? (
                   <>
-                    <span className="size-4 animate-spin rounded-full border-2 border-ink/25 border-t-ink motion-reduce:animate-none" aria-hidden />
+                    <span
+                      className="size-4 animate-spin rounded-full border-2 border-ink/25 border-t-ink motion-reduce:animate-none"
+                      aria-hidden
+                    />
                     Searching
                   </>
                 ) : (

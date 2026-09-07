@@ -1,6 +1,14 @@
 import { Minus, Plus } from "@phosphor-icons/react";
 
-export function Stepper({ id, label, hint, value, min = 0, max = 9, onChange }) {
+export function Stepper({
+  id,
+  label,
+  hint,
+  value,
+  min = 0,
+  max = 9,
+  onChange,
+}) {
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border border-line bg-surface px-4 py-3">
       <span>

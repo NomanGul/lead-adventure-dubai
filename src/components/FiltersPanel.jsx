@@ -19,7 +19,9 @@ function CheckRow({ label, count, checked, onChange }) {
   return (
     <label
       className={`flex items-center gap-2.5 rounded-lg px-1.5 py-1.5 text-sm transition ${
-        empty ? "cursor-not-allowed opacity-40" : "cursor-pointer hover:bg-canvas"
+        empty
+          ? "cursor-not-allowed opacity-40"
+          : "cursor-pointer hover:bg-canvas"
       }`}
     >
       <input
@@ -29,7 +31,9 @@ function CheckRow({ label, count, checked, onChange }) {
         onChange={(event) => onChange(event.target.checked)}
         className="size-4 shrink-0 rounded border-line text-brand-600 focus:ring-2 focus:ring-brand-500/30"
       />
-      <span className="min-w-0 flex-1 truncate font-medium text-ink">{label}</span>
+      <span className="min-w-0 flex-1 truncate font-medium text-ink">
+        {label}
+      </span>
       <span className="shrink-0 text-xs text-muted tabular-nums">{count}</span>
     </label>
   );
@@ -43,7 +47,9 @@ export function FiltersPanel({ facets, bounds }) {
       const list = prev[key];
       return {
         ...prev,
-        [key]: list.includes(value) ? list.filter((v) => v !== value) : [...list, value],
+        [key]: list.includes(value)
+          ? list.filter((v) => v !== value)
+          : [...list, value],
       };
     });
   };

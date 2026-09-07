@@ -9,14 +9,18 @@ export function FilterChips() {
   const chips = [];
   const set = (patch) => setFilters((prev) => ({ ...prev, ...patch }));
   const drop = (key, value) =>
-    setFilters((prev) => ({ ...prev, [key]: prev[key].filter((v) => v !== value) }));
+    setFilters((prev) => ({
+      ...prev,
+      [key]: prev[key].filter((v) => v !== value),
+    }));
 
   if (filters.minPrice !== null || filters.maxPrice !== null) {
     const from = filters.minPrice === null ? "" : formatMoney(filters.minPrice);
     const to = filters.maxPrice === null ? "" : formatMoney(filters.maxPrice);
     chips.push({
       key: "price",
-      label: from && to ? `${from} – ${to}` : from ? `Over ${from}` : `Under ${to}`,
+      label:
+        from && to ? `${from} – ${to}` : from ? `Over ${from}` : `Under ${to}`,
       clear: () => set({ minPrice: null, maxPrice: null }),
     });
   }
@@ -37,7 +41,11 @@ export function FilterChips() {
       }),
     );
     filters.airlines.forEach((name) =>
-      chips.push({ key: `airline-${name}`, label: name, clear: () => drop("airlines", name) }),
+      chips.push({
+        key: `airline-${name}`,
+        label: name,
+        clear: () => drop("airlines", name),
+      }),
     );
   } else if (activeTab === "activities") {
     filters.categories.forEach((name) =>
@@ -88,7 +96,10 @@ export function FilterChips() {
   if (chips.length === 0) return null;
 
   return (
-    <ul className="flex flex-wrap items-center gap-2" aria-label="Active filters">
+    <ul
+      className="flex flex-wrap items-center gap-2"
+      aria-label="Active filters"
+    >
       {chips.map((chip) => (
         <li key={chip.key}>
           <button
@@ -97,7 +108,10 @@ export function FilterChips() {
             className="flex items-center gap-1.5 rounded-full bg-brand-50 py-1 pr-2 pl-3 text-xs font-semibold text-brand-800 ring-1 ring-brand-200 ring-inset transition hover:bg-brand-100"
           >
             {chip.label}
-            <span aria-hidden className="grid size-4 place-items-center rounded-full bg-brand-200/70">
+            <span
+              aria-hidden
+              className="grid size-4 place-items-center rounded-full bg-brand-200/70"
+            >
               <X size={10} weight="bold" aria-hidden />
             </span>
             <span className="sr-only">Remove filter</span>

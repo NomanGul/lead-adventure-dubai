@@ -82,9 +82,16 @@ export function TripProvider({ children }) {
   const [activeTab, setActiveTab] = useState("flights");
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [sort, setSort] = useState("best");
-  const [results, setResults] = useState({ flights: [], hotels: [], activities: [] });
+  const [results, setResults] = useState({
+    flights: [],
+    hotels: [],
+    activities: [],
+  });
 
-  const [storedItinerary, setItinerary] = useLocalStorage("myCustomTrip", initialItinerary);
+  const [storedItinerary, setItinerary] = useLocalStorage(
+    "myCustomTrip",
+    initialItinerary,
+  );
   const noticeTimer = useRef(null);
 
   const itinerary = { ...initialItinerary, ...storedItinerary };
@@ -124,7 +131,9 @@ export function TripProvider({ children }) {
   };
 
   const patchStop = (index, patch) => {
-    setStops((prev) => prev.map((stop, i) => (i === index ? { ...stop, ...patch } : stop)));
+    setStops((prev) =>
+      prev.map((stop, i) => (i === index ? { ...stop, ...patch } : stop)),
+    );
     setErrors({});
   };
 
@@ -139,7 +148,8 @@ export function TripProvider({ children }) {
 
     try {
       const matches = await searchAirports(city);
-      const place = matches.find((m) => m.navigation?.entityType === "CITY") ?? matches[0];
+      const place =
+        matches.find((m) => m.navigation?.entityType === "CITY") ?? matches[0];
 
       if (place) selectStop(index, place);
       else {
@@ -166,7 +176,9 @@ export function TripProvider({ children }) {
       const last = prev[prev.length - 1];
       return [
         ...prev,
-        makeHop({ departure: last?.departure ? addDaysISO(last.departure, 3) : "" }),
+        makeHop({
+          departure: last?.departure ? addDaysISO(last.departure, 3) : "",
+        }),
       ];
     });
 
@@ -175,7 +187,9 @@ export function TripProvider({ children }) {
   };
 
   const removeStop = (index) => {
-    setStops((prev) => (prev.length <= 2 ? prev : prev.filter((_, i) => i !== index)));
+    setStops((prev) =>
+      prev.length <= 2 ? prev : prev.filter((_, i) => i !== index),
+    );
     setHops((prev) => {
       if (prev.length <= 1) return prev;
       const drop = Math.min(index, prev.length - 1);
@@ -186,7 +200,9 @@ export function TripProvider({ children }) {
 
   const setDeparture = (index, date) => {
     setHops((prev) => {
-      const next = prev.map((hop, i) => (i === index ? { ...hop, departure: date } : hop));
+      const next = prev.map((hop, i) =>
+        i === index ? { ...hop, departure: date } : hop,
+      );
 
       return next.map((hop, i) => {
         if (i <= index || !hop.departure || hop.departure > date) return hop;
@@ -219,7 +235,10 @@ export function TripProvider({ children }) {
     if (which === 0) {
       stops.forEach((stop, i) => {
         if (!stop.label.trim()) {
-          found[`stop-${i}`] = i === 0 ? "Choose where you are flying from." : "Choose where you are going.";
+          found[`stop-${i}`] =
+            i === 0
+              ? "Choose where you are flying from."
+              : "Choose where you are going.";
         } else if (!stop.place) {
           found[`stop-${i}`] = "Pick a city from the list or the globe.";
         }
@@ -230,7 +249,8 @@ export function TripProvider({ children }) {
         if (!previous) return;
         const a = flightParams(previous.place).entityId;
         const b = flightParams(stop.place).entityId;
-        if (a && b && a === b) found[`stop-${i}`] = "This is the same city as the stop before it.";
+        if (a && b && a === b)
+          found[`stop-${i}`] = "This is the same city as the stop before it.";
       });
     }
 
@@ -246,7 +266,8 @@ export function TripProvider({ children }) {
         }
         const previous = hops[i - 1];
         if (previous?.departure && hop.departure <= previous.departure) {
-          found[`departure-${i}`] = "Each hop must leave after the one before it.";
+          found[`departure-${i}`] =
+            "Each hop must leave after the one before it.";
         }
       });
 
@@ -283,11 +304,14 @@ export function TripProvider({ children }) {
   const search = async () => {
     const all = { ...validateStep(0), ...validateStep(1) };
     if (adults < 1) all.adults = "At least one adult.";
-    if (adults + childCount > 9) all.travellers = "Nine travellers maximum per booking.";
+    if (adults + childCount > 9)
+      all.travellers = "Nine travellers maximum per booking.";
 
     if (Object.keys(all).length > 0) {
       setErrors(all);
-      const firstBroken = [0, 1].find((i) => Object.keys(validateStep(i)).length > 0);
+      const firstBroken = [0, 1].find(
+        (i) => Object.keys(validateStep(i)).length > 0,
+      );
       setStep(firstBroken ?? 0);
       return;
     }
@@ -323,10 +347,15 @@ export function TripProvider({ children }) {
           });
 
           collected.push(
-            ...itineraries.map((raw) => ({ ...normalizeFlight(raw), legIndex: i })),
+            ...itineraries.map((raw) => ({
+              ...normalizeFlight(raw),
+              legIndex: i,
+            })),
           );
         } catch (error) {
-          setSearchError((prev) => prev || error.message || "Flight search failed.");
+          setSearchError(
+            (prev) => prev || error.message || "Flight search failed.",
+          );
         }
 
         setResults((prev) => ({ ...prev, flights: [...collected] }));
@@ -347,7 +376,8 @@ export function TripProvider({ children }) {
         try {
           const entityId =
             hotelParams(leg.destinationPlace).entityId ||
-            (await searchHotelDestination(cityName(leg.destinationPlace)))?.entityId;
+            (await searchHotelDestination(cityName(leg.destinationPlace)))
+              ?.entityId;
 
           if (entityId) {
             const hotels = await searchHotels({
@@ -361,7 +391,9 @@ export function TripProvider({ children }) {
             );
           }
         } catch (error) {
-          setSearchError((prev) => prev || error.message || "Hotel search failed.");
+          setSearchError(
+            (prev) => prev || error.message || "Hotel search failed.",
+          );
         }
 
         setResults((prev) => ({ ...prev, hotels: [...collected] }));
@@ -380,10 +412,18 @@ export function TripProvider({ children }) {
         if (!city) continue;
 
         try {
-          const activities = await searchActivities({ city, legIndex: i, limit: 24 });
-          collected.push(...activities.map((item) => ({ ...item, legIndex: i })));
+          const activities = await searchActivities({
+            city,
+            legIndex: i,
+            limit: 24,
+          });
+          collected.push(
+            ...activities.map((item) => ({ ...item, legIndex: i })),
+          );
         } catch (error) {
-          setSearchError((prev) => prev || error.message || "Activity search failed.");
+          setSearchError(
+            (prev) => prev || error.message || "Activity search failed.",
+          );
         }
 
         setResults((prev) => ({ ...prev, activities: [...collected] }));
@@ -403,7 +443,8 @@ export function TripProvider({ children }) {
     children: childCount,
   });
 
-  const isSaved = (type, id) => (itinerary[type] ?? []).some((item) => item.id === id);
+  const isSaved = (type, id) =>
+    (itinerary[type] ?? []).some((item) => item.id === id);
 
   const toggleSaved = (type, item) => {
     const alreadyThere = isSaved(type, item.id);

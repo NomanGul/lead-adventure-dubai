@@ -76,7 +76,10 @@ export function ResultsDashboard() {
     return plainLegs
       .map((leg, index) => ({
         index,
-        label: activeTab === "flights" ? `${leg.origin} → ${leg.destination}` : leg.destination,
+        label:
+          activeTab === "flights"
+            ? `${leg.origin} → ${leg.destination}`
+            : leg.destination,
         sub:
           activeTab === "hotels"
             ? pluralise(stays[index]?.nights ?? 0, "night")
@@ -87,7 +90,9 @@ export function ResultsDashboard() {
       .filter((tab) => tab.total > 0);
   })();
 
-  const currentHop = hopTabs.some((tab) => tab.index === hop) ? hop : (hopTabs[0]?.index ?? 0);
+  const currentHop = hopTabs.some((tab) => tab.index === hop)
+    ? hop
+    : (hopTabs[0]?.index ?? 0);
   const shown = multiLeg
     ? visible.filter((item) => item.legIndex === currentHop)
     : visible;
@@ -103,7 +108,11 @@ export function ResultsDashboard() {
   return (
     <section aria-labelledby="results-heading">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <div role="tablist" aria-label="Result type" className="flex gap-1 rounded-xl bg-canvas p-1">
+        <div
+          role="tablist"
+          aria-label="Result type"
+          className="flex gap-1 rounded-xl bg-canvas p-1"
+        >
           {TABS.map((tab) => (
             <button
               key={tab.id}
@@ -156,7 +165,9 @@ export function ResultsDashboard() {
                 aria-pressed={sort === option.id}
                 onClick={() => setSort(option.id)}
                 className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  sort === option.id ? "bg-surface text-ink shadow-sm" : "text-muted hover:text-ink"
+                  sort === option.id
+                    ? "bg-surface text-ink shadow-sm"
+                    : "text-muted hover:text-ink"
                 }`}
               >
                 {option.label}
@@ -191,7 +202,9 @@ export function ResultsDashboard() {
                 <span
                   aria-hidden
                   className={`grid size-5 shrink-0 place-items-center rounded-md text-[10px] font-bold ${
-                    selected ? "bg-brand-600 text-white" : "bg-canvas text-muted"
+                    selected
+                      ? "bg-brand-600 text-white"
+                      : "bg-canvas text-muted"
                   }`}
                 >
                   {tab.index + 1}
@@ -234,22 +247,30 @@ export function ResultsDashboard() {
 
         <div>
           <div className="mb-4 space-y-3">
-            <h2 id="results-heading" className="text-sm font-semibold text-ink" aria-live="polite">
-              {loading
-                ? `Searching for ${noun}…`
-                : `${shown.length} ${noun}`}
+            <h2
+              id="results-heading"
+              className="text-sm font-semibold text-ink"
+              aria-live="polite"
+            >
+              {loading ? `Searching for ${noun}…` : `${shown.length} ${noun}`}
               {!loading && hopLabel ? (
                 <span className="font-normal text-muted"> · {hopLabel}</span>
               ) : null}
               {!loading && !hopLabel && shown.length !== raw.length ? (
-                <span className="font-normal text-muted"> of {raw.length} match your filters</span>
+                <span className="font-normal text-muted">
+                  {" "}
+                  of {raw.length} match your filters
+                </span>
               ) : null}
             </h2>
             <FilterChips />
           </div>
 
           {searchError && raw.length === 0 && !loading ? (
-            <p className="rounded-2xl border border-danger/30 bg-danger/5 p-4 text-sm text-danger" role="alert">
+            <p
+              className="rounded-2xl border border-danger/30 bg-danger/5 p-4 text-sm text-danger"
+              role="alert"
+            >
               {searchError}
             </p>
           ) : null}

@@ -124,7 +124,11 @@ export function auditTrip(itinerary, legs, stays) {
       return;
     }
 
-    if (activity.city && leg.destination && !sameCity(activity.city, leg.destination)) {
+    if (
+      activity.city &&
+      leg.destination &&
+      !sameCity(activity.city, leg.destination)
+    ) {
       issues.push({
         id: `activity-city-${activity.id}`,
         tone: "error",

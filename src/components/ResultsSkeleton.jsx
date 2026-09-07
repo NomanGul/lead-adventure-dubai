@@ -72,7 +72,11 @@ export function ResultsSkeleton({ type = "flights", count = 4 }) {
     >
       <span className="sr-only">Loading {type}…</span>
       {Array.from({ length: count }, (_, i) =>
-        type === "flights" ? <FlightSkeleton key={i} /> : <HotelSkeleton key={i} />,
+        type === "flights" ? (
+          <FlightSkeleton key={i} />
+        ) : (
+          <HotelSkeleton key={i} />
+        ),
       )}
     </div>
   );

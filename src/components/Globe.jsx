@@ -6,7 +6,10 @@ import {
   geoOrthographic,
   geoPath,
 } from "d3-geo";
-import { MagnifyingGlassMinus, MagnifyingGlassPlus } from "@phosphor-icons/react";
+import {
+  MagnifyingGlassMinus,
+  MagnifyingGlassPlus,
+} from "@phosphor-icons/react";
 import { feature } from "topojson-client";
 import landTopology from "world-atlas/land-110m.json";
 import { DESTINATIONS } from "../data/world";
@@ -116,7 +119,8 @@ export function Globe({ route = [], onPickCity, hint }) {
         const from = centerRef.current;
         const step = Math.min(1, dt / 520) * 2.2;
         const nextLat = from.lat + (target.lat - from.lat) * step;
-        const nextLon = from.lon + shortestLonDelta(from.lon, target.lon) * step;
+        const nextLon =
+          from.lon + shortestLonDelta(from.lon, target.lon) * step;
         const settled =
           Math.abs(target.lat - nextLat) < 0.35 &&
           Math.abs(shortestLonDelta(nextLon, target.lon)) < 0.35;
@@ -388,20 +392,50 @@ export function Globe({ route = [], onPickCity, hint }) {
           strokeWidth="0.6"
         />
 
-        <path d={landPath} fill="#2f8b83" fillOpacity="0.95" stroke="#7fd6c8" strokeWidth="0.5" />
+        <path
+          d={landPath}
+          fill="#2f8b83"
+          fillOpacity="0.95"
+          stroke="#7fd6c8"
+          strokeWidth="0.5"
+        />
 
         {arcs.map((arc) => (
           <g key={arc.key}>
-            <path d={arc.d} fill="none" stroke="#f5b544" strokeOpacity="0.3" strokeWidth="5.5" strokeLinecap="round" />
-            <path d={arc.d} fill="none" stroke="#f9c76c" strokeWidth="1.9" strokeLinecap="round" />
+            <path
+              d={arc.d}
+              fill="none"
+              stroke="#f5b544"
+              strokeOpacity="0.3"
+              strokeWidth="5.5"
+              strokeLinecap="round"
+            />
+            <path
+              d={arc.d}
+              fill="none"
+              stroke="#f9c76c"
+              strokeWidth="1.9"
+              strokeLinecap="round"
+            />
           </g>
         ))}
 
         {planeDot ? (
-          <circle cx={planeDot.x} cy={planeDot.y} r="3.4" fill="#fff6e6" stroke="#f5b544" strokeWidth="1.2" />
+          <circle
+            cx={planeDot.x}
+            cy={planeDot.y}
+            r="3.4"
+            fill="#fff6e6"
+            stroke="#f5b544"
+            strokeWidth="1.2"
+          />
         ) : null}
 
-        <path d={spherePath} fill="url(#limb)" className="pointer-events-none" />
+        <path
+          d={spherePath}
+          fill="url(#limb)"
+          className="pointer-events-none"
+        />
         <path
           d={spherePath}
           fill="none"
@@ -422,12 +456,25 @@ export function Globe({ route = [], onPickCity, hint }) {
         {chosen.map((c) => (
           <g key={c.dest.city} className="pointer-events-none">
             <circle cx={c.x} cy={c.y} r="9" fill="#f5b544" fillOpacity="0.22" />
-            <circle cx={c.x} cy={c.y} r="4.5" fill="#fff" stroke="#f5b544" strokeWidth="2" />
+            <circle
+              cx={c.x}
+              cy={c.y}
+              r="4.5"
+              fill="#fff"
+              stroke="#f5b544"
+              strokeWidth="2"
+            />
           </g>
         ))}
 
         {hovered && hovered.order === undefined ? (
-          <circle cx={hovered.x} cy={hovered.y} r="5" fill="#fff" className="pointer-events-none" />
+          <circle
+            cx={hovered.x}
+            cy={hovered.y}
+            r="5"
+            fill="#fff"
+            className="pointer-events-none"
+          />
         ) : null}
       </svg>
 
@@ -447,7 +494,9 @@ export function Globe({ route = [], onPickCity, hint }) {
           ) : (
             <span
               className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold whitespace-nowrap shadow-lg ${
-                label.order !== undefined ? "bg-white text-ink" : "bg-ink/90 text-white"
+                label.order !== undefined
+                  ? "bg-white text-ink"
+                  : "bg-ink/90 text-white"
               }`}
             >
               {label.order !== undefined ? (

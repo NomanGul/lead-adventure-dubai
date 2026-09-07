@@ -2,7 +2,12 @@ import { useState } from "react";
 import { X } from "@phosphor-icons/react";
 import { Calendar } from "../Calendar";
 import { useTrip } from "../../context/useTrip";
-import { addDaysISO, formatDateLong, pluralise, todayISO } from "../../utils/format";
+import {
+  addDaysISO,
+  formatDateLong,
+  pluralise,
+  todayISO,
+} from "../../utils/format";
 
 const TRIP_TYPES = [
   { id: "return", label: "Return" },
@@ -28,7 +33,11 @@ export function WhenStep() {
   const lastDeparture = hops[hops.length - 1]?.departure;
   const lastStop = stops[stops.length - 1]?.label;
 
-  const endLabel = isRoundTrip ? "Flying home" : hops.length > 1 ? "Trip ends" : "Checking out";
+  const endLabel = isRoundTrip
+    ? "Flying home"
+    : hops.length > 1
+      ? "Trip ends"
+      : "Checking out";
   const endSub = isRoundTrip
     ? `Back to ${stops[0]?.label || "where you started"}`
     : `Last night in ${lastStop || "your final stop"}`;
@@ -55,7 +64,9 @@ export function WhenStep() {
   ];
 
   const activeSlot =
-    slots.find((slot) => slot.kind === active.kind && slot.index === active.index) ?? slots[0];
+    slots.find(
+      (slot) => slot.kind === active.kind && slot.index === active.index,
+    ) ?? slots[0];
 
   const anchor = activeSlot.value || hops[0]?.departure || todayISO();
   const [view, setView] = useState(() => ({
@@ -82,7 +93,9 @@ export function WhenStep() {
   const marks = {};
   hops.forEach((hop, index) => {
     if (hop.departure) {
-      marks[hop.departure] = { label: hops.length > 1 ? `hop ${index + 1} departs` : "departing" };
+      marks[hop.departure] = {
+        label: hops.length > 1 ? `hop ${index + 1} departs` : "departing",
+      };
     }
   });
   if (endDate) marks[endDate] = { label: endLabel.toLowerCase() };
@@ -121,7 +134,10 @@ export function WhenStep() {
             <span className="block text-[11px] font-semibold tracking-wide text-white/50 uppercase">
               {slot.label}
               {slot.optional ? (
-                <span className="ml-1.5 normal-case opacity-70"> · optional</span>
+                <span className="ml-1.5 normal-case opacity-70">
+                  {" "}
+                  · optional
+                </span>
               ) : null}
             </span>
             <span
@@ -131,7 +147,9 @@ export function WhenStep() {
             >
               {slot.value ? formatDateLong(slot.value) : "Pick a date"}
             </span>
-            <span className="block truncate text-xs text-white/45">{slot.sub}</span>
+            <span className="block truncate text-xs text-white/45">
+              {slot.sub}
+            </span>
           </span>
         </button>
 
@@ -155,7 +173,11 @@ export function WhenStep() {
     <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(0,264px)] md:items-start">
       <div className="space-y-2">
         {hops.length === 1 ? (
-          <div role="group" aria-label="Trip type" className="mb-3 flex gap-1 rounded-xl bg-white/[0.06] p-1">
+          <div
+            role="group"
+            aria-label="Trip type"
+            className="mb-3 flex gap-1 rounded-xl bg-white/[0.06] p-1"
+          >
             {TRIP_TYPES.map((option) => (
               <button
                 key={option.id}
@@ -182,7 +204,10 @@ export function WhenStep() {
               {slotButton(slot)}
 
               {slot.error ? (
-                <p className="mt-1 pl-1 text-xs font-medium text-[#ffb4a8]" role="alert">
+                <p
+                  className="mt-1 pl-1 text-xs font-medium text-[#ffb4a8]"
+                  role="alert"
+                >
                   {slot.error}
                 </p>
               ) : null}

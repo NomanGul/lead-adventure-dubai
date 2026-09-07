@@ -14,8 +14,18 @@ export function SaveButton({ saved, onClick, addLabel = "Add to trip" }) {
     >
       {saved ? (
         <>
-          <Check size={14} weight="bold" className="group-hover:hidden" aria-hidden />
-          <X size={14} weight="bold" className="hidden group-hover:block" aria-hidden />
+          <Check
+            size={14}
+            weight="bold"
+            className="group-hover:hidden"
+            aria-hidden
+          />
+          <X
+            size={14}
+            weight="bold"
+            className="hidden group-hover:block"
+            aria-hidden
+          />
           <span className="group-hover:hidden">Saved</span>
           <span className="hidden group-hover:inline">Remove</span>
         </>

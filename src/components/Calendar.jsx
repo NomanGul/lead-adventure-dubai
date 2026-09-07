@@ -2,8 +2,18 @@ import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 const WEEKDAYS = ["M", "T", "W", "T", "F", "S", "S"];
 const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 function iso(year, month, day) {
@@ -14,7 +24,15 @@ function leadingBlanks(year, month) {
   return (new Date(year, month, 1).getDay() + 6) % 7;
 }
 
-export function Calendar({ year, month, onMonthChange, min, marks = {}, ranges = [], onSelect }) {
+export function Calendar({
+  year,
+  month,
+  onMonthChange,
+  min,
+  marks = {},
+  ranges = [],
+  onSelect,
+}) {
   const days = Array.from(
     { length: new Date(year, month + 1, 0).getDate() },
     (_, i) => i + 1,
@@ -59,7 +77,11 @@ export function Calendar({ year, month, onMonthChange, min, marks = {}, ranges =
 
       <div className="grid grid-cols-7 gap-0.5">
         {WEEKDAYS.map((day, i) => (
-          <div key={i} className="pb-1 text-center text-[11px] font-semibold text-muted" aria-hidden>
+          <div
+            key={i}
+            className="pb-1 text-center text-[11px] font-semibold text-muted"
+            aria-hidden
+          >
             {day}
           </div>
         ))}

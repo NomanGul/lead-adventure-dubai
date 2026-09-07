@@ -3,8 +3,15 @@ import { useTrip } from "../context/useTrip";
 import { formatRange, pluralise } from "../utils/format";
 
 export function TripSummaryBar() {
-  const { plainLegs, endDate, isRoundTrip, travellers, stays, setEditingSearch, setStep } =
-    useTrip();
+  const {
+    plainLegs,
+    endDate,
+    isRoundTrip,
+    travellers,
+    stays,
+    setEditingSearch,
+    setStep,
+  } = useTrip();
 
   const route = plainLegs
     .map((leg) => leg.origin)
@@ -16,15 +23,25 @@ export function TripSummaryBar() {
     <div className="sticky top-0 z-30 border-b border-line bg-surface px-4 py-3 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-x-4 gap-y-2">
         <div className="flex min-w-0 flex-1 items-center gap-3">
-          <span aria-hidden className="grid size-9 shrink-0 place-items-center rounded-xl bg-ink text-white">
+          <span
+            aria-hidden
+            className="grid size-9 shrink-0 place-items-center rounded-xl bg-ink text-white"
+          >
             <GlobeHemisphereWest size={18} aria-hidden />
           </span>
 
           <div className="min-w-0">
             <p className="flex flex-wrap items-center gap-x-1.5 text-sm font-semibold text-ink">
               {route.map((city, index) => (
-                <span key={`${city}-${index}`} className="flex items-center gap-1.5">
-                  {index > 0 ? <span aria-hidden className="text-muted">→</span> : null}
+                <span
+                  key={`${city}-${index}`}
+                  className="flex items-center gap-1.5"
+                >
+                  {index > 0 ? (
+                    <span aria-hidden className="text-muted">
+                      →
+                    </span>
+                  ) : null}
                   {city}
                 </span>
               ))}

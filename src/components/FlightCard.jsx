@@ -25,7 +25,9 @@ function Badge({ tone, children }) {
   };
 
   return (
-    <span className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${tones[tone]}`}>
+    <span
+      className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${tones[tone]}`}
+    >
       {children}
     </span>
   );
@@ -36,14 +38,19 @@ export function FlightCard({ flight }) {
   const [showDetail, setShowDetail] = useState(false);
   const saved = isSaved("flights", flight.id);
 
-  const badges = flight.tags.map((tag) => TAGS[tag]).filter(Boolean).slice(0, 2);
+  const badges = flight.tags
+    .map((tag) => TAGS[tag])
+    .filter(Boolean)
+    .slice(0, 2);
   const total = flight.price * travellers;
   const isCheapest = flight.tags.includes("cheapest");
 
   return (
     <article
       className={`rounded-2xl border bg-surface p-4 transition sm:p-5 ${
-        saved ? "border-brand-400 ring-1 ring-brand-400/40" : "border-line hover:border-brand-300 hover:shadow-md"
+        saved
+          ? "border-brand-400 ring-1 ring-brand-400/40"
+          : "border-line hover:border-brand-300 hover:shadow-md"
       }`}
     >
       <div className="flex items-start justify-between gap-4">
@@ -107,18 +114,27 @@ export function FlightCard({ flight }) {
         {flight.ecoDelta > 0 ? (
           <Badge tone="eco">{Math.round(flight.ecoDelta)}% less CO₂</Badge>
         ) : null}
-        {flight.isSelfTransfer ? <Badge tone="warn">Self-transfer</Badge> : null}
-        <Badge tone="plain">{flight.refundable ? "Refundable" : "Non-refundable"}</Badge>
+        {flight.isSelfTransfer ? (
+          <Badge tone="warn">Self-transfer</Badge>
+        ) : null}
+        <Badge tone="plain">
+          {flight.refundable ? "Refundable" : "Non-refundable"}
+        </Badge>
         {flight.changeable ? <Badge tone="plain">Changeable</Badge> : null}
 
         <div className="ml-auto flex items-center gap-3">
           {travellers > 1 ? (
             <p className="text-right text-xs">
-              <span className="font-semibold text-ink tabular-nums">{formatMoney(total)}</span>
+              <span className="font-semibold text-ink tabular-nums">
+                {formatMoney(total)}
+              </span>
               <span className="text-muted"> total</span>
             </p>
           ) : null}
-          <SaveButton saved={saved} onClick={() => toggleSaved("flights", flight)} />
+          <SaveButton
+            saved={saved}
+            onClick={() => toggleSaved("flights", flight)}
+          />
         </div>
       </div>
 
@@ -143,7 +159,8 @@ export function FlightCard({ flight }) {
             <div key={leg.id} className="flex justify-between gap-3">
               <dt className="text-muted">
                 {index === 0 ? "Outbound" : "Return"} ·{" "}
-                {leg.originCity || leg.originCode}–{leg.destinationCity || leg.destinationCode}
+                {leg.originCity || leg.originCode}–
+                {leg.destinationCity || leg.destinationCode}
               </dt>
               <dd className="text-right font-medium text-ink">
                 {leg.carrierName}
